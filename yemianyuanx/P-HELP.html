@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帮助指南 - 染纹创合</title>
+    <script src="https://unpkg.byted-static.com/coze/space_ppt_lib/1.0.3-alpha.12/lib/tailwindcss.js"></script>
+    <script src="https://unpkg.byted-static.com/fortawesome/fontawesome-free/6.7.2/js/all.min.js" data-auto-replace-svg="nest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b396a',
+                        secondary: '#5773cf61',
+                        accent: '#304db0e6',
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                        'text-primary': '#1b396a',
+                        'text-secondary': '#304db0e6',
+                        'bg-glass': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1b396a 0%, #304db0e6 50%, #5773cf61 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+            transform: scale(1.05);
+        }
+        
+        .help-nav-item {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .help-nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+        }
+        
+        .help-nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        
+        .faq-question {
+            cursor: pointer;
+            padding: 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .faq-question.active {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-bottom: 0;
+        }
+        
+        .faq-answer.expanded {
+            max-height: 500px;
+            padding-bottom: 16px;
+        }
+        
+        .tutorial-step {
+            margin-bottom: 32px;
+            padding: 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px 0 rgba(31, 38, 135, 0.3);
+        }
+    </style>
+</head>
+<body class="font-sans text-white">
+    <!-- 顶部导航栏 -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div id="logo-section" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">染纹创合</span>
+                </div>
+                
+                <!-- 主导航菜单 -->
+                <div id="nav-menu" class="hidden md:flex items-center space-x-8">
+                    <a href="P-HOME.html" id="nav-home" class="nav-link text-white/80 hover:text-white py-2">首页</a>
+                    <a href="P-PATTERN_DESIGN.html" id="nav-pattern-design" class="nav-link text-white/80 hover:text-white py-2">纹样设计</a>
+                    <a href="P-ELEMENT_COMBINE.html" id="nav-element-combine" class="nav-link text-white/80 hover:text-white py-2">元素组合</a>
+                    <a href="P-APPLICATION.html" id="nav-application" class="nav-link text-white/80 hover:text-white py-2">服饰/首饰应用</a>
+                    <a href="P-HISTORY.html" id="nav-history" class="nav-link text-white/80 hover:text-white py-2">历史记录</a>
+                    <a href="P-HELP.html" id="nav-help" class="nav-link active text-white py-2">帮助指南</a>
+                </div>
+                
+                <!-- 用户头像 -->
+                <div id="user-section" class="flex items-center space-x-4">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main id="main-content" class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- 页面头部 -->
+            <header id="page-header" class="mb-8">
+                <div class="flex items-center space-x-2 text-sm text-white/60 mb-2">
+                    <a href="P-HOME.html" class="hover:text-white">首页</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span class="text-white">帮助指南</span>
+                </div>
+                <h1 class="text-3xl font-bold text-white">帮助指南</h1>
+                <p class="text-white/70 mt-2">了解如何使用染纹创合进行扎染纹样设计</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- 内容导航区 -->
+                <aside id="help-navigation" class="lg:col-span-1">
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold text-white mb-6">帮助内容</h3>
+                        <nav class="space-y-2">
+                            <div id="nav-tutorial" class="help-nav-item active">
+                                <i class="fas fa-graduation-cap mr-3 text-white/70"></i>
+                                <span class="text-white/90">入门教程</span>
+                            </div>
+                            <div id="nav-features" class="help-nav-item">
+                                <i class="fas fa-cogs mr-3 text-white/70"></i>
+                                <span class="text-white/90">功能详解</span>
+                            </div>
+                            <div id="nav-faq" class="help-nav-item">
+                                <i class="fas fa-question-circle mr-3 text-white/70"></i>
+                                <span class="text-white/90">常见问题</span>
+                            </div>
+                        </nav>
+                    </div>
+                </aside>
+
+                <!-- 内容展示区 -->
+                <main id="help-content" class="lg:col-span-3">
+                    <!-- 入门教程内容 -->
+                    <section id="tutorial-content" class="help-content-section">
+                        <div class="glass-card rounded-2xl p-8">
+                            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                                <i class="fas fa-graduation-cap mr-3 text-white/80"></i>
+                                入门教程
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div class="tutorial-step">
+                                    <div class="step-number">1</div>
+                                    <h3 class="text-lg font-semibold text-white mb-3">上传参考纹样</h3>
+                                    <p class="text-white/80 mb-4">在纹样设计页面，您可以上传两张参考纹样图片。这些图片将作为AI生成新纹样的基础。</p>
+                                    <ul class="list-disc list-inside text-white/70 space-y-1">
+                                        <li>点击"参考纹样 1"或"参考纹样 2"的上传区域</li>
+                                        <li>选择本地图片文件或直接拖拽图片到上传区域</li>
+                                        <li>上传后可以看到图片预览</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="tutorial-step">
+                                    <div class="step-number">2</div>
+                                    <h3 class="text-lg font-semibold text-white mb-3">选择扎染风格</h3>
+                                    <p class="text-white/80 mb-4">选择您喜欢的扎染风格，可以多选以混合不同风格特点。</p>
+                                    <ul class="list-disc list-inside text-white/70 space-y-1">
+                                        <li>传统蓝白晕染 - 经典的蓝白色调扎染效果</li>
+                                        <li>撞色渐变扎染 - 多种颜色渐变融合的现代效果</li>
+                                        <li>水墨风扎染 - 类似水墨画的写意效果</li>
+                                        <li>几何线条扎染 - 规则几何图案的扎染效果</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="tutorial-step">
+                                    <div class="step-number">3</div>
+                                    <h3 class="text-lg font-semibold text-white mb-3">调整细节参数</h3>
+                                    <p class="text-white/80 mb-4">通过滑块调整各项参数，精确控制生成效果。</p>
+                                    <ul class="list-disc list-inside text-white/70 space-y-1">
+                                        <li>晕染浓度 - 控制颜色扩散的程度</li>
+                                        <li>花纹疏密 - 调整纹样的密集程度</li>
+                                        <li>融合强度 - 控制两张参考纹样的融合程度</li>
+                                        <li>色彩饱和度 - 调整生成纹样的色彩鲜艳度</li>
+                                        <li>纹样大小 - 控制生成纹样的整体尺寸</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="tutorial-step">
+                                    <div class="step-number">4</div>
+                                    <h3 class="text-lg font-semibold text-white mb-3">生成创新纹样</h3>
+                                    <p class="text-white/80 mb-4">点击"生成创新纹样"按钮，AI将根据您的设置生成独特的扎染纹样。</p>
+                                    <ul class="list-disc list-inside text-white/70 space-y-1">
+                                        <li>每次生成将产生3个候选纹样</li>
+                                        <li>可以多次生成直到满意为止</li>
+                                        <li>生成时间通常为3-5秒</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="tutorial-step">
+                                    <div class="step-number">5</div>
+                                    <h3 class="text-lg font-semibold text-white mb-3">应用到产品</h3>
+                                    <p class="text-white/80 mb-4">将生成的纹样应用到服饰、首饰或文创产品上，查看实际效果。</p>
+                                    <ul class="list-disc list-inside text-white/70 space-y-1">
+                                        <li>在服饰应用页面上传产品图片</li>
+                                        <li>选择要应用的纹样</li>
+                                        <li>生成并下载产品效果图</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 功能详解内容 -->
+                    <section id="features-content" class="help-content-section hidden">
+                        <div class="glass-card rounded-2xl p-8">
+                            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                                <i class="fas fa-cogs mr-3 text-white/80"></i>
+                                功能详解
+                            </h2>
+                            
+                            <div class="space-y-6">
+                                <div class="feature-card">
+                                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+                                        <i class="fas fa-cloud-upload-alt mr-3 text-white/70"></i>
+                                        纹样上传功能
+                                    </h3>
+                                    <p class="text-white/80 mb-4">支持多种图片格式上传，包括JPG、PNG、GIF等。上传后自动进行图片优化和预处理，确保最佳的AI生成效果。</p>
+                                    <div class="bg-white/5 rounded-lg p-3">
+                                        <strong class="text-white/90">支持格式：</strong>
+                                        <span class="text-white/70">JPG, PNG, GIF, BMP, TIFF</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="feature-card">
+                                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+                                        <i class="fas fa-magic mr-3 text-white/70"></i>
+                                        AI纹样生成
+                                    </h3>
+                                    <p class="text-white/80 mb-4">基于深度学习的AI算法，能够理解参考纹样的风格特征，并生成具有创新性的新纹样。支持多种风格融合和参数调整。</p>
+                                    <div class="bg-white/5 rounded-lg p-3">
+                                        <strong class="text-white/90">生成特点：</strong>
+                                        <span class="text-white/70">原创性高、风格可控、细节丰富</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="feature-card">
+                                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+                                        <i class="fas fa-tshirt mr-3 text-white/70"></i>
+                                        产品应用功能
+                                    </h3>
+                                    <p class="text-white/80 mb-4">智能图像贴合技术，能够将生成的纹样自然地应用到各种产品表面，包括平面和简单立体的产品形态。</p>
+                                    <div class="bg-white/5 rounded-lg p-3">
+                                        <strong class="text-white/90">适用产品：</strong>
+                                        <span class="text-white/70">T恤、围巾、包包、笔记本、耳环、手机壳等</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="feature-card">
+                                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+                                        <i class="fas fa-history mr-3 text-white/70"></i>
+                                        历史记录管理
+                                    </h3>
+                                    <p class="text-white/80 mb-4">自动保存所有设计历史，支持按时间、风格、参数等条件搜索和筛选。方便回顾和复用之前的设计成果。</p>
+                                    <div class="bg-white/5 rounded-lg p-3">
+                                        <strong class="text-white/90">记录内容：</strong>
+                                        <span class="text-white/70">参考纹样、生成参数、生成结果、应用效果</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="feature-card">
+                                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+                                        <i class="fas fa-palette mr-3 text-white/70"></i>
+                                        元素组合功能
+                                    </h3>
+                                    <p class="text-white/80 mb-4">支持单个元素的重复排列和组合，通过选择不同的构图方式（对称、放射状、重复排列等）创建复杂的纹样效果。</p>
+                                    <div class="bg-white/5 rounded-lg p-3">
+                                        <strong class="text-white/90">构图方式：</strong>
+                                        <span class="text-white/70">对称、四角排列、中线对称、重复排列、放射状</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 常见问题内容 -->
+                    <section id="faq-content" class="help-content-section hidden">
+                        <div class="glass-card rounded-2xl p-8">
+                            <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+                                <i class="fas fa-question-circle mr-3 text-white/80"></i>
+                                常见问题
+                            </h2>
+                            
+                            <div class="space-y-0">
+                                <!-- FAQ 1 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-1">
+                                        <span>上传的参考纹样有什么要求？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-1">
+                                        <p class="text-white/80 leading-relaxed">
+                                            参考纹样最好是清晰、色彩鲜明的图片。建议选择具有明显纹理或图案的图片，这样AI能更好地学习和生成相似风格的纹样。图片大小建议在500x500像素以上，但不要超过10MB。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- FAQ 2 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-2">
+                                        <span>生成纹样需要多长时间？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-2">
+                                        <p class="text-white/80 leading-relaxed">
+                                            通常情况下，生成3个候选纹样需要3-5秒时间。如果网络环境较差或服务器负载较高，可能需要更长时间。您可以在生成过程中看到进度提示。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- FAQ 3 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-3">
+                                        <span>如何提高生成纹样的质量？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-3">
+                                        <p class="text-white/80 leading-relaxed">
+                                            提高生成质量的方法包括：选择高质量的参考图片、适当调整参数（如提高融合强度）、选择合适的风格组合。如果对结果不满意，可以尝试调整参数后重新生成。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- FAQ 4 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-4">
+                                        <span>生成的纹样可以商用吗？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-4">
+                                        <p class="text-white/80 leading-relaxed">
+                                            是的，您使用染纹创合生成的所有纹样都拥有完整的商用权。您可以将这些纹样用于产品设计、商业销售等任何商业用途，无需支付额外费用。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- FAQ 5 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-5">
+                                        <span>支持哪些产品类型的应用？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-5">
+                                        <p class="text-white/80 leading-relaxed">
+                                            目前支持平面和简单立体的产品类型，包括T恤、围巾、包包、笔记本封面、手机壳、耳环、项链吊坠等。对于复杂的立体产品，建议先拍摄平整的表面图片进行应用。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- FAQ 6 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-6">
+                                        <span>历史记录可以保存多久？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-6">
+                                        <p class="text-white/80 leading-relaxed">
+                                            您的设计历史记录将永久保存，除非您主动删除。系统会定期备份数据，确保您的设计成果不会丢失。您可以随时查看、下载或删除历史记录。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- FAQ 7 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-7">
+                                        <span>可以批量生成纹样吗？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-7">
+                                        <p class="text-white/80 leading-relaxed">
+                                            目前每次生成固定为3个候选纹样。如果需要更多选择，可以调整参数后多次生成。我们正在开发批量生成功能，敬请期待。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- FAQ 8 -->
+                                <div class="faq-item">
+                                    <div class="faq-question" data-target="faq-8">
+                                        <span>如何联系客服获得帮助？</span>
+                                        <i class="fas fa-chevron-down text-white/60 transform transition-transform duration-300"></i>
+                                    </div>
+                                    <div class="faq-answer" id="faq-8">
+                                        <p class="text-white/80 leading-relaxed">
+                                            如果您在使用过程中遇到任何问题，可以通过以下方式联系我们：
+                                            <br><br>
+                                            <strong>邮箱：</strong> support@ranwenchuanghe.com<br>
+                                            <strong>微信：</strong> ranwenchuanghe<br>
+                                            <strong>工作时间：</strong> 周一至周五 9:00-18:00
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 顶部导航点击事件
+            document.querySelector('#nav-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HOME.html';
+            });
+
+            document.querySelector('#nav-pattern-design').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-PATTERN_DESIGN.html';
+            });
+
+            document.querySelector('#nav-element-combine').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-ELEMENT_COMBINE.html';
+            });
+
+            document.querySelector('#nav-application').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-APPLICATION.html';
+            });
+
+            document.querySelector('#nav-history').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HISTORY.html';
+            });
+
+            document.querySelector('#nav-help').addEventListener('click', function(e) {
+                e.preventDefault();
+                // 已在帮助页面，无需操作
+            });
+
+            // 帮助内容导航切换
+            const navItems = document.querySelectorAll('.help-nav-item');
+            const contentSections = document.querySelectorAll('.help-content-section');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有active状态
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    contentSections.forEach(section => section.classList.add('hidden'));
+
+                    // 添加当前active状态
+                    this.classList.add('active');
+
+                    // 显示对应内容
+                    const navId = this.id;
+                    let contentId;
+
+                    switch(navId) {
+                        case 'nav-tutorial':
+                            contentId = 'tutorial-content';
+                            break;
+                        case 'nav-features':
+                            contentId = 'features-content';
+                            break;
+                        case 'nav-faq':
+                            contentId = 'faq-content';
+                            break;
+                    }
+
+                    if (contentId) {
+                        document.querySelector(`#${contentId}`).classList.remove('hidden');
+                    }
+                });
+            });
+
+            // FAQ展开/收起功能
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const answer = document.querySelector(`#${targetId}`);
+                    const icon = this.querySelector('i');
+
+                    // 切换展开状态
+                    answer.classList.toggle('expanded');
+                    this.classList.toggle('active');
+                    icon.classList.toggle('rotate-180');
+
+                    // 关闭其他已展开的FAQ
+                    faqQuestions.forEach(otherQuestion => {
+                        if (otherQuestion !== this) {
+                            const otherTargetId = otherQuestion.getAttribute('data-target');
+                            const otherAnswer = document.querySelector(`#${otherTargetId}`);
+                            const otherIcon = otherQuestion.querySelector('i');
+                            
+                            otherAnswer.classList.remove('expanded');
+                            otherQuestion.classList.remove('active');
+                            otherIcon.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

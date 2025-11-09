@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纹样库 - 染纹创合</title>
+    <script src="https://s.coze.cn/image/HTHr9IeuAp8/"></script>
+    <script src="https://unpkg.byted-static.com/fortawesome/fontawesome-free/6.7.2/js/all.min.js" data-auto-replace-svg="nest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b396a',
+                        secondary: '#5773cf61',
+                        accent: '#304db0e6',
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                        'text-primary': '#1b396a',
+                        'text-secondary': '#304db0e6',
+                        'bg-glass': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1b396a 0%, #304db0e6 50%, #5773cf61 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+            transform: scale(1.05);
+        }
+        
+        .pattern-card {
+            transition: all 0.3s ease;
+        }
+        
+        .pattern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px 0 rgba(31, 38, 135, 0.4);
+        }
+        
+        .search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            outline: none;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .period-tab {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .period-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .period-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="font-sans text-white">
+    <!-- 顶部导航栏 -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div id="logo-section" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">染纹创合</span>
+                </div>
+                
+                <!-- 主导航菜单 -->
+                <div id="nav-menu" class="hidden md:flex items-center space-x-8">
+                    <a href="P-HOME.html" id="nav-home" class="nav-link text-white/80 hover:text-white py-2">首页</a>
+                    <a href="P-PATTERN_LIBRARY.html" id="nav-pattern-library" class="nav-link active text-white py-2">纹样库</a>
+                    <a href="P-PATTERN_DESIGN.html" id="nav-pattern-design" class="nav-link text-white/80 hover:text-white py-2">纹样设计</a>
+                    <a href="P-ELEMENT_COMBINE.html" id="nav-element-combine" class="nav-link text-white/80 hover:text-white py-2">元素组合</a>
+                    <a href="P-APPLICATION.html" id="nav-application" class="nav-link text-white/80 hover:text-white py-2">服饰/首饰应用</a>
+                    <a href="P-HISTORY.html" id="nav-history" class="nav-link text-white/80 hover:text-white py-2">历史记录</a>
+                    <a href="P-HELP.html" id="nav-help" class="nav-link text-white/80 hover:text-white py-2">帮助指南</a>
+                </div>
+                
+                <!-- 用户头像 -->
+                <div id="user-section" class="flex items-center space-x-4">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main id="main-content" class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- 页面头部 -->
+            <header id="page-header" class="mb-8">
+                <div class="flex items-center space-x-2 text-sm text-white/60 mb-2">
+                    <a href="P-HOME.html" class="hover:text-white">首页</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span class="text-white">纹样库</span>
+                </div>
+                <h1 class="text-3xl font-bold text-white">荆楚纹样库</h1>
+                <p class="text-white/70 mt-2">探索丰富多样的荆楚传统纹样，按朝代分类展示</p>
+            </header>
+
+            <!-- 搜索区域 -->
+            <section id="search-section" class="glass-card rounded-2xl p-6 mb-8">
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="relative flex-1">
+                        <input type="text" id="pattern-search" placeholder="搜索纹样名称..." class="search-input w-full pl-12 pr-4 py-3 rounded-xl">
+                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-white/60"></i>
+                    </div>
+                    <button id="search-button" class="glass-button px-6 py-3 rounded-xl text-white font-medium">
+                        <i class="fas fa-search mr-2"></i>
+                        搜索
+                    </button>
+                    <button id="reset-button" class="glass-button px-6 py-3 rounded-xl text-white font-medium">
+                        <i class="fas fa-redo-alt mr-2"></i>
+                        重置
+                    </button>
+                </div>
+            </section>
+
+            <!-- 朝代筛选标签 -->
+            <section id="period-filter-section" class="mb-8 overflow-x-auto">
+                <div class="flex space-x-3 pb-2 min-w-max">
+                    <button id="period-all" class="period-tab active px-5 py-2 rounded-full border text-white whitespace-nowrap">
+                        全部朝代
+                    </button>
+                    <button id="period-spring-autumn" class="period-tab px-5 py-2 rounded-full border border-white/20 text-white/80 hover:text-white whitespace-nowrap">
+                        春秋时期
+                    </button>
+                    <button id="period-warring-states" class="period-tab px-5 py-2 rounded-full border border-white/20 text-white/80 hover:text-white whitespace-nowrap">
+                        战国时期
+                    </button>
+                    <button id="period-qin" class="period-tab px-5 py-2 rounded-full border border-white/20 text-white/80 hover:text-white whitespace-nowrap">
+                        秦代
+                    </button>
+                    <button id="period-han" class="period-tab px-5 py-2 rounded-full border border-white/20 text-white/80 hover:text-white whitespace-nowrap">
+                        汉代
+                    </button>
+                    <button id="period-three-kingdoms" class="period-tab px-5 py-2 rounded-full border border-white/20 text-white/80 hover:text-white whitespace-nowrap">
+                        三国时期
+                    </button>
+                    <button id="period-jin" class="period-tab px-5 py-2 rounded-full border border-white/20 text-white/80 hover:text-white whitespace-nowrap">
+                        晋代
+                    </button>
+                </div>
+            </section>
+
+            <!-- 纹样展示区域 -->
+            <section id="patterns-display-section" class="mb-8">
+                <!-- 春秋时期纹样 -->
+                <div id="spring-autumn-patterns" class="mb-12">
+                    <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                        <i class="fas fa-landmark mr-3 text-white/80"></i>
+                        春秋时期纹样
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- 纹样卡片 1 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/MxDnh1jSAd0/" alt="春秋-云雷纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">春秋-云雷纹</h3>
+                                <p class="text-sm text-white/70 mb-4">春秋时期常见的几何纹样，象征权力与神秘</p>
+                                <button id="use-pattern-1" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 纹样卡片 2 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/FdpzXEHFmvM/" alt="春秋-蟠虺纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">春秋-蟠虺纹</h3>
+                                <p class="text-sm text-white/70 mb-4">以小蛇盘曲纠结组成的纹样，常见于青铜器</p>
+                                <button id="use-pattern-2" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 纹样卡片 3 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/gRu6A4X6wzI/" alt="春秋-窃曲纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">春秋-窃曲纹</h3>
+                                <p class="text-sm text-white/70 mb-4">由两端回钩的或"S"形的线条构成的纹样</p>
+                                <button id="use-pattern-3" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 战国时期纹样 -->
+                <div id="warring-states-patterns" class="mb-12">
+                    <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                        <i class="fas fa-landmark mr-3 text-white/80"></i>
+                        战国时期纹样
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- 纹样卡片 4 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/Hva9-E_sLL4/" alt="战国-龙凤纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">战国-龙凤纹</h3>
+                                <p class="text-sm text-white/70 mb-4">龙与凤相结合的纹样，象征吉祥与权力</p>
+                                <button id="use-pattern-4" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 纹样卡片 5 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/ZdmktLWWzS4/" alt="战国-卷云纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">战国-卷云纹</h3>
+                                <p class="text-sm text-white/70 mb-4">以柔和的曲线构成的云纹，富有流动感</p>
+                                <button id="use-pattern-5" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 纹样卡片 6 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/_WkFJXVxRCE/" alt="战国-狩猎纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">战国-狩猎纹</h3>
+                                <p class="text-sm text-white/70 mb-4">描绘狩猎场景的纹样，展现当时的生活</p>
+                                <button id="use-pattern-6" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 秦汉时期纹样 -->
+                <div id="qin-han-patterns" class="mb-12">
+                    <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                        <i class="fas fa-landmark mr-3 text-white/80"></i>
+                        秦汉时期纹样
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- 纹样卡片 7 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/BA0AxA0oUas/" alt="秦汉-四神纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">秦汉-四神纹</h3>
+                                <p class="text-sm text-white/70 mb-4">青龙、白虎、朱雀、玄武四种神兽组成的纹样</p>
+                                <button id="use-pattern-7" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 纹样卡片 8 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/DhcnENWYVhI/" alt="秦汉-云气纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">秦汉-云气纹</h3>
+                                <p class="text-sm text-white/70 mb-4">流畅的云气纹样，象征高升和如意</p>
+                                <button id="use-pattern-8" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 纹样卡片 9 -->
+                        <div class="pattern-card glass-card rounded-xl overflow-hidden">
+                            <div class="aspect-square relative">
+                                <img src="https://s.coze.cn/image/68VUsnm5ipo/" alt="秦汉-茱萸纹" class="w-full h-full object-cover" data-category="艺术">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-medium text-white mb-2">秦汉-茱萸纹</h3>
+                                <p class="text-sm text-white/70 mb-4">以茱萸植物为原型的纹样，象征避邪消灾</p>
+                                <button id="use-pattern-9" class="w-full glass-button py-2 rounded-lg text-white text-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    用于设计
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 分页控制 -->
+            <section id="pagination-section" class="flex justify-center items-center space-x-2 mb-8">
+                <button id="prev-page" class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-white">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-white bg-white/20">1</button>
+                <button class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-white">2</button>
+                <button class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-white">3</button>
+                <span class="text-white/60">...</span>
+                <button class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-white">10</button>
+                <button id="next-page" class="glass-button w-10 h-10 rounded-full flex items-center justify-center text-white">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 搜索功能
+            const searchInput = document.querySelector('#pattern-search');
+            const searchButton = document.querySelector('#search-button');
+            const resetButton = document.querySelector('#reset-button');
+            
+            searchButton.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                if (searchTerm) {
+                    console.log('搜索纹样:', searchTerm);
+                    // 实际应用中这里应该根据搜索词过滤纹样
+                    searchPatterns(searchTerm);
+                }
+            });
+            
+            resetButton.addEventListener('click', function() {
+                searchInput.value = '';
+                console.log('重置搜索');
+                // 实际应用中这里应该显示所有纹样
+                resetPatterns();
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+            
+            // 朝代筛选标签切换
+            const periodTabs = document.querySelectorAll('.period-tab');
+            periodTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除其他标签的选中状态
+                    periodTabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.classList.add('border-white/20', 'text-white/80');
+                        t.classList.remove('border-white/40', 'text-white');
+                    });
+                    
+                    // 设置当前标签为选中状态
+                    this.classList.add('active');
+                    this.classList.remove('border-white/20', 'text-white/80');
+                    this.classList.add('border-white/40', 'text-white');
+                    
+                    const periodId = this.id;
+                    console.log('选择朝代:', periodId);
+                    // 实际应用中这里应该根据选中的朝代筛选纹样
+                    filterPatternsByPeriod(periodId);
+                });
+            });
+            
+            // 用于设计按钮点击事件
+            const usePatternButtons = document.querySelectorAll('[id^="use-pattern-"]');
+            usePatternButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const patternId = this.id.split('-')[2];
+                    console.log('使用纹样:', patternId);
+                    // 实际应用中这里应该将选中的纹样传递到纹样设计页面
+                    window.location.href = `P-PATTERN_DESIGN.html?pattern_id=${patternId}`;
+                });
+            });
+            
+            // 分页控制
+            const prevPageButton = document.querySelector('#prev-page');
+            const nextPageButton = document.querySelector('#next-page');
+            
+            prevPageButton.addEventListener('click', function() {
+                console.log('上一页');
+                // 实际应用中这里应该加载上一页的纹样
+            });
+            
+            nextPageButton.addEventListener('click', function() {
+                console.log('下一页');
+                // 实际应用中这里应该加载下一页的纹样
+            });
+            
+            // 导航菜单点击事件
+            document.querySelector('#nav-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HOME.html';
+            });
+            
+            document.querySelector('#nav-pattern-library').addEventListener('click', function(e) {
+                e.preventDefault();
+                // 已在当前页面，无需操作
+            });
+            
+            document.querySelector('#nav-pattern-design').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-PATTERN_DESIGN.html';
+            });
+            
+            document.querySelector('#nav-element-combine').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-ELEMENT_COMBINE.html';
+            });
+            
+            document.querySelector('#nav-application').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-APPLICATION.html';
+            });
+            
+            document.querySelector('#nav-history').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HISTORY.html';
+            });
+            
+            document.querySelector('#nav-help').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HELP.html';
+            });
+            
+            // 模拟搜索纹样函数
+            function searchPatterns(term) {
+                // 实际应用中这里应该实现真实的搜索逻辑
+                alert(`搜索"${term}"的纹样结果`);
+            }
+            
+            // 模拟重置纹样函数
+            function resetPatterns() {
+                // 实际应用中这里应该实现真实的重置逻辑
+                alert('已重置搜索条件，显示所有纹样');
+            }
+            
+            // 模拟按朝代筛选纹样函数
+            function filterPatternsByPeriod(periodId) {
+                // 实际应用中这里应该实现真实的筛选逻辑
+                let periodName = '全部朝代';
+                if (periodId === 'period-spring-autumn') periodName = '春秋时期';
+                else if (periodId === 'period-warring-states') periodName = '战国时期';
+                else if (periodId === 'period-qin') periodName = '秦代';
+                else if (periodId === 'period-han') periodName = '汉代';
+                else if (periodId === 'period-three-kingdoms') periodName = '三国时期';
+                else if (periodId === 'period-jin') periodName = '晋代';
+                
+                alert(`显示${periodName}的纹样`);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纹样设计 - 染纹创合</title>
+    <script src="https://unpkg.byted-static.com/coze/space_ppt_lib/1.0.3-alpha.12/lib/tailwindcss.js"></script>
+    <script src="https://unpkg.byted-static.com/fortawesome/fontawesome-free/6.7.2/js/all.min.js" data-auto-replace-svg="nest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b396a',
+                        secondary: '#5773cf61',
+                        accent: '#304db0e6',
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                        'text-primary': '#1b396a',
+                        'text-secondary': '#304db0e6',
+                        'bg-glass': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1b396a 0%, #304db0e6 50%, #5773cf61 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .upload-area {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            min-height: 150px;
+        }
+        
+        .upload-area:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px 0 rgba(31, 38, 135, 0.3);
+        }
+        
+        .slider-track {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        
+        .slider-thumb {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .slider-thumb:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+        
+        .pattern-grid {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+            transform: scale(1.05);
+        }
+        
+        .checkbox-custom {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .checkbox-custom:checked {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .checkbox-custom:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .model-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .model-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .model-option.selected {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="font-sans text-white">
+    <!-- 顶部导航栏 -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div id="logo-section" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">染纹创合</span>
+                </div>
+                
+                <!-- 主导航菜单 -->
+                <div id="nav-menu" class="hidden md:flex items-center space-x-8">
+                    <a href="P-HOME.html" id="nav-home" class="nav-link text-white/80 hover:text-white py-2">首页</a>
+                    <a href="P-PATTERN_LIBRARY.html" id="nav-pattern-library" class="nav-link text-white/80 hover:text-white py-2">纹样库</a>
+                    <a href="P-PATTERN_DESIGN.html" id="nav-pattern-design" class="nav-link active text-white py-2">纹样设计</a>
+                    <a href="P-ELEMENT_COMBINE.html" id="nav-element-combine" class="nav-link text-white/80 hover:text-white py-2">元素组合</a>
+                    <a href="P-APPLICATION.html" id="nav-application" class="nav-link text-white/80 hover:text-white py-2">服饰/首饰应用</a>
+                    <a href="P-HISTORY.html" id="nav-history" class="nav-link text-white/80 hover:text-white py-2">历史记录</a>
+                    <a href="P-HELP.html" id="nav-help" class="nav-link text-white/80 hover:text-white py-2">帮助指南</a>
+                </div>
+                
+                <!-- 用户头像 -->
+                <div id="user-section" class="flex items-center space-x-4">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main id="main-content" class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- 页面头部 -->
+            <header id="page-header" class="mb-8">
+                <div class="flex items-center space-x-2 text-sm text-white/60 mb-2">
+                    <a href="P-HOME.html" class="hover:text-white">首页</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span class="text-white">纹样设计</span>
+                </div>
+                <h1 class="text-3xl font-bold text-white">纹样设计</h1>
+                <p class="text-white/70 mt-2">通过AI技术辅助您进行扎染纹样的创新设计</p>
+            </header>
+
+            <!-- 参考纹样上传区 -->
+            <section id="upload-section" class="glass-card rounded-2xl p-6 mb-8">
+                <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                    <i class="fas fa-cloud-upload-alt mr-3 text-white/80"></i>
+                    参考纹样上传
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 参考纹样 1 -->
+                    <div id="upload-pattern-1" class="upload-area rounded-xl p-6 text-center aspect-[2/1] relative">
+                        <div class="upload-content h-full flex flex-col items-center justify-center">
+                            <i class="fas fa-image text-4xl text-white/60 mb-4"></i>
+                            <h3 class="text-lg font-medium text-white mb-2">参考纹样 1</h3>
+                            <p class="text-sm text-white/70 mb-4">点击上传或拖拽图片到此处</p>
+                            <input type="file" id="file-input-1" accept="image/*" class="hidden">
+                            <button id="upload-btn-1" class="glass-button px-6 py-2 rounded-lg text-white font-medium">
+                                <i class="fas fa-folder-open mr-2"></i>
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="preview-1" class="upload-preview hidden absolute inset-0 flex flex-col">
+                            <div class="relative flex-1 overflow-hidden rounded-lg mb-4">
+                                <img id="preview-img-1" src="" alt="参考纹样 1 预览" class="w-full h-full object-contain bg-white/5">
+                                <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                    双击调整大小和位置
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button id="delete-btn-1" class="text-white/60 hover:text-white text-sm">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                                <div class="flex space-x-2">
+                                    <button id="zoom-in-btn-1" class="text-white/60 hover:text-white text-sm">
+                                        <i class="fas fa-search-plus mr-1"></i>
+                                        放大
+                                    </button>
+                                    <button id="zoom-out-btn-1" class="text-white/60 hover:text-white text-sm">
+                                        <i class="fas fa-search-minus mr-1"></i>
+                                        缩小
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 参考纹样 2 -->
+                    <div id="upload-pattern-2" class="upload-area rounded-xl p-6 text-center aspect-[2/1] relative">
+                        <div class="upload-content h-full flex flex-col items-center justify-center">
+                            <i class="fas fa-image text-4xl text-white/60 mb-4"></i>
+                            <h3 class="text-lg font-medium text-white mb-2">参考纹样 2</h3>
+                            <p class="text-sm text-white/70 mb-4">点击上传或拖拽图片到此处</p>
+                            <input type="file" id="file-input-2" accept="image/*" class="hidden">
+                            <button id="upload-btn-2" class="glass-button px-6 py-2 rounded-lg text-white font-medium">
+                                <i class="fas fa-folder-open mr-2"></i>
+                                选择文件
+                            </button>
+                        </div>
+                        <div id="preview-2" class="upload-preview hidden absolute inset-0 flex flex-col">
+                            <div class="relative flex-1 overflow-hidden rounded-lg mb-4">
+                                <img id="preview-img-2" src="" alt="参考纹样 2 预览" class="w-full h-full object-contain bg-white/5">
+                                <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                    双击调整大小和位置
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <button id="delete-btn-2" class="text-white/60 hover:text-white text-sm">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                                <div class="flex space-x-2">
+                                    <button id="zoom-in-btn-2" class="text-white/60 hover:text-white text-sm">
+                                        <i class="fas fa-search-plus mr-1"></i>
+                                        放大
+                                    </button>
+                                    <button id="zoom-out-btn-2" class="text-white/60 hover:text-white text-sm">
+                                        <i class="fas fa-search-minus mr-1"></i>
+                                        缩小
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 模型选择区 -->
+            <section id="model-selection-section" class="glass-card rounded-2xl p-6 mb-8">
+                <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                    <i class="fas fa-brain mr-3 text-white/80"></i>
+                    AI模型选择
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div id="model-innovative" class="model-option glass-card rounded-lg p-4 selected">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-lightbulb text-2xl text-white/80"></i>
+                            <div>
+                                <h3 class="font-medium text-white">创新设计模型</h3>
+                                <p class="text-sm text-white/70">生成新颖独特的纹样设计</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="model-traditional" class="model-option glass-card rounded-lg p-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-scroll text-2xl text-white/80"></i>
+                            <div>
+                                <h3 class="font-medium text-white">传统风格模型</h3>
+                                <p class="text-sm text-white/70">保持传统扎染艺术风格</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="model-modern" class="model-option glass-card rounded-lg p-4">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-paint-brush text-2xl text-white/80"></i>
+                            <div>
+                                <h3 class="font-medium text-white">现代艺术模型</h3>
+                                <p class="text-sm text-white/70">融合现代艺术设计理念</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 纹样生成参数区 -->
+            <section id="parameters-section" class="glass-card rounded-2xl p-6 mb-8">
+                <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                    <i class="fas fa-sliders-h mr-3 text-white/80"></i>
+                    纹样生成参数
+                </h2>
+                
+                <!-- 风格选择 -->
+                <div id="style-selection" class="mb-8">
+                    <h3 class="text-lg font-medium text-white mb-4">扎染风格选择</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <label class="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 cursor-pointer transition-all duration-300 hover:translate-x-1">
+                            <input type="checkbox" class="checkbox-custom" name="style" value="traditional">
+                            <span class="text-white/90">传统蓝白晕染</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 cursor-pointer transition-all duration-300 hover:translate-x-1">
+                            <input type="checkbox" class="checkbox-custom" name="style" value="gradient">
+                            <span class="text-white/90">撞色渐变扎染</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 cursor-pointer transition-all duration-300 hover:translate-x-1">
+                            <input type="checkbox" class="checkbox-custom" name="style" value="ink">
+                            <span class="text-white/90">水墨风扎染</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 cursor-pointer transition-all duration-300 hover:translate-x-1">
+                            <input type="checkbox" class="checkbox-custom" name="style" value="geometric">
+                            <span class="text-white/90">几何线条扎染</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- 细节参数 -->
+                <div id="detail-parameters">
+                    <h3 class="text-lg font-medium text-white mb-4">细节参数调整</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- 晕染浓度 -->
+                        <div class="parameter-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">晕染浓度</label>
+                                <span class="text-white/70 text-sm" id="dye-concentration-value">50%</span>
+                            </div>
+                            <input type="range" id="dye-concentration" class="w-full h-2 slider-track appearance-none cursor-pointer" min="0" max="100" value="50">
+                        </div>
+                        
+                        <!-- 花纹疏密 -->
+                        <div class="parameter-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">花纹疏密</label>
+                                <span class="text-white/70 text-sm" id="pattern-density-value">50%</span>
+                            </div>
+                            <input type="range" id="pattern-density" class="w-full h-2 slider-track appearance-none cursor-pointer" min="0" max="100" value="50">
+                        </div>
+                        
+                        <!-- 融合强度 -->
+                        <div class="parameter-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">融合强度</label>
+                                <span class="text-white/70 text-sm" id="fusion-strength-value">50%</span>
+                            </div>
+                            <input type="range" id="fusion-strength" class="w-full h-2 slider-track appearance-none cursor-pointer" min="0" max="100" value="50">
+                        </div>
+                        
+                        <!-- 色彩饱和度 -->
+                        <div class="parameter-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">色彩饱和度</label>
+                                <span class="text-white/70 text-sm" id="color-saturation-value">50%</span>
+                            </div>
+                            <input type="range" id="color-saturation" class="w-full h-2 slider-track appearance-none cursor-pointer" min="0" max="100" value="50">
+                        </div>
+                        
+                        <!-- 纹样大小 -->
+                        <div class="parameter-item lg:col-span-2">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">纹样大小</label>
+                                <span class="text-white/70 text-sm" id="pattern-size-value">50%</span>
+                            </div>
+                            <input type="range" id="pattern-size" class="w-full h-2 slider-track appearance-none cursor-pointer" min="0" max="100" value="50">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 操作按钮区 -->
+            <!-- 操作按钮区 -->
+            <section id="action-section" class="mb-8 text-center">
+                <button id="generate-patterns" class="glass-button px-12 py-4 rounded-xl text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                    <i class="fas fa-magic mr-3"></i>
+                    生成创新纹样
+                </button>
+            </section>
+            
+            <!-- 实时预览区 -->
+            <section id="real-time-preview-section" class="glass-card rounded-2xl p-6 mb-8">
+                <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                    <i class="fas fa-eye mr-3 text-white/80"></i>
+                    实时纹样预览
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div id="preview-container" class="pattern-grid aspect-square rounded-xl relative overflow-hidden">
+                        <div id="pattern-preview" class="w-full h-full flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-magic text-6xl text-white/40 mb-4"></i>
+                                <p class="text-white/60">调整参数查看实时纹样效果</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <h3 class="text-lg font-medium text-white mb-4">预览操作</h3>
+                        <p class="text-white/70 mb-6">调整左侧参数滑块，实时查看纹样效果变化。点击下载按钮保存当前预览效果。</p>
+                        <div class="flex space-x-4">
+                            <button id="update-preview" class="glass-button flex-1 py-3 rounded-lg text-white font-medium">
+                                <i class="fas fa-sync-alt mr-2"></i>
+                                更新预览
+                            </button>
+                            <button id="download-preview" class="bg-accent text-white flex-1 py-3 rounded-lg font-medium hover:bg-white/20 transition-all duration-300">
+                                <i class="fas fa-download mr-2"></i>
+                                下载预览
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 生成纹样管理区 -->
+            <section id="generated-patterns-section" class="glass-card rounded-2xl p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-white flex items-center">
+                        <i class="fas fa-images mr-3 text-white/80"></i>
+                        生成纹样管理
+                    </h2>
+                    <button id="clear-all-patterns" class="text-white/60 hover:text-white text-sm transition-all duration-300 hover:translate-x-1">
+                        <i class="fas fa-trash-alt mr-1"></i>
+                        清空所有生成纹样
+                    </button>
+                </div>
+                
+                <div id="generated-patterns-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 生成纹样卡片 1 -->
+                    <div class="pattern-card glass-card rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02]">
+                        <div class="pattern-grid aspect-square relative">
+                            <img src="https://s.coze.cn/image/s2W4vhhALC0/" alt="生成纹样 1" class="w-full h-full object-cover" data-category="艺术">
+                            <div class="absolute top-2 right-2">
+                                <span class="bg-accent text-white text-xs px-2 py-1 rounded-full">待用纹样</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <input type="text" value="纹样设计 1" class="w-full bg-transparent text-white text-center font-medium mb-3 border-none outline-none hover:bg-white/10 rounded-lg p-2 transition-colors">
+                            <div class="flex space-x-2">
+                                <button class="download-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    <i class="fas fa-download mr-1"></i>
+                                    下载
+                                </button>
+                                <button class="delete-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                                <button class="select-btn flex-1 bg-accent text-white py-2 px-3 rounded-lg text-sm font-medium">
+                                    已选中
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 生成纹样卡片 2 -->
+                    <div class="pattern-card glass-card rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02]">
+                        <div class="pattern-grid aspect-square">
+                            <img src="https://s.coze.cn/image/iK33Od1nK1w/" alt="生成纹样 2" class="w-full h-full object-cover" data-category="艺术">
+                        </div>
+                        <div class="p-4">
+                            <input type="text" value="纹样设计 2" class="w-full bg-transparent text-white text-center font-medium mb-3 border-none outline-none hover:bg-white/10 rounded-lg p-2 transition-colors">
+                            <div class="flex space-x-2">
+                                <button class="download-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    <i class="fas fa-download mr-1"></i>
+                                    下载
+                                </button>
+                                <button class="delete-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                                <button class="select-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    设为待用
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 生成纹样卡片 3 -->
+                    <div class="pattern-card glass-card rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02]">
+                        <div class="pattern-grid aspect-square">
+                            <img src="https://s.coze.cn/image/j79a3f0GqX0/" alt="生成纹样 3" class="w-full h-full object-cover" data-category="艺术">
+                        </div>
+                        <div class="p-4">
+                            <input type="text" value="纹样设计 3" class="w-full bg-transparent text-white text-center font-medium mb-3 border-none outline-none hover:bg-white/10 rounded-lg p-2 transition-colors">
+                            <div class="flex space-x-2">
+                                <button class="download-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    <i class="fas fa-download mr-1"></i>
+                                    下载
+                                </button>
+                                <button class="delete-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                                <button class="select-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm">
+                                    设为待用
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 参数滑块实时更新
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                const valueDisplay = document.querySelector('#' + slider.id + '-value');
+                slider.addEventListener('input', function() {
+                    valueDisplay.textContent = this.value + '%';
+                    // 实时更新预览
+                    updatePatternPreview();
+                });
+            });
+            
+            // 存储上传图片的特征数据
+            let uploadedImageFeatures = {
+                image1: null,
+                image2: null
+            };
+
+            // 提取图片颜色特征
+            function extractColorFeatures(imgElement) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = imgElement.naturalWidth || imgElement.width;
+                canvas.height = imgElement.naturalHeight || imgElement.height;
+                
+                ctx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                // 提取主要颜色
+                const colorMap = new Map();
+                const step = 4; // 采样步长，提高性能
+                
+                for (let i = 0; i < data.length; i += step * 4) {
+                    const r = Math.floor(data[i] / 32) * 32;
+                    const g = Math.floor(data[i + 1] / 32) * 32;
+                    const b = Math.floor(data[i + 2] / 32) * 32;
+                    const key = `${r},${g},${b}`;
+                    colorMap.set(key, (colorMap.get(key) || 0) + 1);
+                }
+                
+                // 获取出现频率最高的5种颜色
+                const sortedColors = Array.from(colorMap.entries())
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([color]) => {
+                        const [r, g, b] = color.split(',').map(Number);
+                        return { r, g, b };
+                    });
+                
+                return {
+                    dominantColors: sortedColors,
+                    canvas: canvas,
+                    imageData: imageData
+                };
+            }
+
+            // 基于提取的特征生成纹样
+            function generatePatternFromFeatures(features, params, seed = 0) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 600;
+                canvas.height = 600;
+                
+                const { dominantColors, imageData } = features;
+                const { dyeConcentration, patternDensity, fusionStrength, colorSaturation, patternSize } = params;
+                
+                // 使用颜色值创建种子，确保相同图片生成相同图案
+                const colorSeed = dominantColors.reduce((sum, color) => sum + color.r + color.g + color.b, 0);
+                
+                // 伪随机数生成器（基于种子）
+                let randomSeed = colorSeed + seed * 1000;
+                function seededRandom() {
+                    randomSeed = (randomSeed * 9301 + 49297) % 233280;
+                    return randomSeed / 233280;
+                }
+                
+                // 背景色使用第一个主色
+                const bgColor = dominantColors[0] || { r: 255, g: 255, b: 255 };
+                ctx.fillStyle = `rgb(${bgColor.r}, ${bgColor.g}, ${bgColor.b})`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // 根据参数生成扎染效果
+                const numCircles = Math.floor(patternDensity / 3) + 5; // 密度控制
+                const baseSize = patternSize * 2; // 纹样大小
+                
+                // 使用颜色比例来决定图案分布
+                const colorWeights = dominantColors.map(c => (c.r + c.g + c.b) / 765);
+                
+                // 创建多层扎染效果
+                for (let layer = 0; layer < 3; layer++) {
+                    const layerAlpha = (dyeConcentration / 100) * (1 - layer * 0.2);
+                    
+                    for (let i = 0; i < numCircles; i++) {
+                        // 使用伪随机但基于颜色特征的位置
+                        const angle = (i / numCircles) * Math.PI * 2 + seededRandom() * Math.PI;
+                        const distance = seededRandom() * canvas.width * 0.4;
+                        const x = canvas.width / 2 + Math.cos(angle) * distance;
+                        const y = canvas.height / 2 + Math.sin(angle) * distance;
+                        
+                        // 根据颜色权重选择颜色
+                        let colorIndex = 0;
+                        const random = seededRandom();
+                        let accumulated = 0;
+                        for (let j = 0; j < colorWeights.length; j++) {
+                            accumulated += colorWeights[j];
+                            if (random < accumulated) {
+                                colorIndex = j;
+                                break;
+                            }
+                        }
+                        
+                        const color = dominantColors[colorIndex];
+                        
+                        // 根据饱和度调整颜色
+                        const saturationFactor = colorSaturation / 100;
+                        const r = Math.floor(color.r * saturationFactor);
+                        const g = Math.floor(color.g * saturationFactor);
+                        const b = Math.floor(color.b * saturationFactor);
+                        
+                        // 创建渐变效果模拟扎染晕染
+                        const radius = baseSize * (0.5 + seededRandom() * 0.5) * (1 + layer * 0.3);
+                        const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                        gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${layerAlpha})`);
+                        gradient.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${layerAlpha * 0.5})`);
+                        gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+                        
+                        ctx.fillStyle = gradient;
+                        ctx.beginPath();
+                        ctx.arc(x, y, radius, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                
+                // 添加基于图片亮度的纹理效果
+                if (imageData) {
+                    ctx.globalCompositeOperation = 'overlay';
+                    ctx.globalAlpha = 0.1;
+                    
+                    // 缩放原图并叠加
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = imageData.width;
+                    tempCanvas.height = imageData.height;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.putImageData(imageData, 0, 0);
+                    
+                    ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+                    
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.globalAlpha = 1;
+                }
+                
+                // 添加融合效果
+                if (fusionStrength > 0) {
+                    ctx.globalCompositeOperation = 'soft-light';
+                    ctx.globalAlpha = fusionStrength / 150;
+                    
+                    // 使用第二主色创建对比
+                    const contrastColor = dominantColors[1] || dominantColors[0];
+                    
+                    for (let i = 0; i < numCircles / 3; i++) {
+                        const angle = seededRandom() * Math.PI * 2;
+                        const distance = seededRandom() * canvas.width * 0.3;
+                        const x = canvas.width / 2 + Math.cos(angle) * distance;
+                        const y = canvas.height / 2 + Math.sin(angle) * distance;
+                        const radius = baseSize * 2;
+                        
+                        const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                        gradient.addColorStop(0, `rgba(${contrastColor.r}, ${contrastColor.g}, ${contrastColor.b}, 0.5)`);
+                        gradient.addColorStop(1, `rgba(${contrastColor.r}, ${contrastColor.g}, ${contrastColor.b}, 0)`);
+                        
+                        ctx.fillStyle = gradient;
+                        ctx.beginPath();
+                        ctx.arc(x, y, radius, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.globalAlpha = 1;
+                }
+                
+                return canvas.toDataURL('image/png');
+            }
+
+            // 实时预览功能
+            function updatePatternPreview() {
+                const previewContainer = document.querySelector('#pattern-preview');
+                const dyeConcentration = document.querySelector('#dye-concentration').value;
+                const patternDensity = document.querySelector('#pattern-density').value;
+                const fusionStrength = document.querySelector('#fusion-strength').value;
+                const colorSaturation = document.querySelector('#color-saturation').value;
+                const patternSize = document.querySelector('#pattern-size').value;
+                
+                const params = {
+                    dyeConcentration: parseInt(dyeConcentration),
+                    patternDensity: parseInt(patternDensity),
+                    fusionStrength: parseInt(fusionStrength),
+                    colorSaturation: parseInt(colorSaturation),
+                    patternSize: parseInt(patternSize)
+                };
+                
+                // 如果有上传的图片，使用提取的特征生成
+                if (uploadedImageFeatures.image1 || uploadedImageFeatures.image2) {
+                    const features = uploadedImageFeatures.image1 || uploadedImageFeatures.image2;
+                    const generatedImage = generatePatternFromFeatures(features, params);
+                    
+                    previewContainer.innerHTML = `
+                        <img src="${generatedImage}" alt="实时纹样预览" class="w-full h-full object-cover">
+                    `;
+                } else {
+                    // 如果没有上传图片，显示提示
+                    previewContainer.innerHTML = `
+                        <div class="text-center">
+                            <i class="fas fa-magic text-6xl text-white/40 mb-4"></i>
+                            <p class="text-white/60">请先上传参考纹样</p>
+                        </div>
+                    `;
+                }
+                
+                console.log('更新实时预览，参数:', params);
+            }
+            
+            // 更新预览按钮点击事件
+            document.querySelector('#update-preview').addEventListener('click', function() {
+                updatePatternPreview();
+            });
+            
+            // 下载预览按钮点击事件
+            document.querySelector('#download-preview').addEventListener('click', function() {
+                const previewImage = document.querySelector('#pattern-preview img');
+                if (previewImage) {
+                    // 模拟下载
+                    const link = document.createElement('a');
+                    link.href = previewImage.src;
+                    link.download = 'pattern_preview.png';
+                    link.click();
+                    console.log('下载预览纹样');
+                } else {
+                    alert('请先更新预览');
+                }
+            });
+
+            // 上传区域交互
+            const uploadButtons = document.querySelectorAll('[id^="upload-btn-"]');
+            uploadButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const uploadId = this.id.split('-')[2];
+                    // 触发文件选择对话框
+                    document.querySelector('#file-input-' + uploadId).click();
+                });
+            });
+            
+            // 文件选择处理
+            const fileInputs = document.querySelectorAll('[id^="file-input-"]');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const uploadId = this.id.split('-')[2];
+                    const preview = document.querySelector('#preview-' + uploadId);
+                    const content = this.closest('.upload-area').querySelector('.upload-content');
+                    const previewImg = document.querySelector('#preview-img-' + uploadId);
+                    
+                    if (this.files && this.files[0]) {
+                        // 显示预览
+                        content.classList.add('hidden');
+                        preview.classList.remove('hidden');
+                        
+                        // 使用FileReader显示图片预览
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImg.src = e.target.result;
+                            
+                            // 提取图片特征
+                            previewImg.onload = function() {
+                                const features = extractColorFeatures(previewImg);
+                                if (uploadId === '1') {
+                                    uploadedImageFeatures.image1 = features;
+                                } else {
+                                    uploadedImageFeatures.image2 = features;
+                                }
+                                // 自动更新预览
+                                updatePatternPreview();
+                            };
+                        }
+                        reader.readAsDataURL(this.files[0]);
+                        
+                        console.log('上传参考纹样 ' + uploadId + ': ' + this.files[0].name);
+                    }
+                });
+            });
+
+            // 删除上传文件
+            const deleteButtons = document.querySelectorAll('[id^="delete-btn-"]');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const uploadId = this.id.split('-')[2];
+                    const preview = document.querySelector('#preview-' + uploadId);
+                    const content = preview.previousElementSibling;
+                    
+                    preview.classList.add('hidden');
+                    content.classList.remove('hidden');
+                    console.log('删除参考纹样 ' + uploadId);
+                });
+            });
+            
+            // 图片缩放功能
+            const zoomInButtons = document.querySelectorAll('[id^="zoom-in-btn-"]');
+            zoomInButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const uploadId = this.id.split('-')[3];
+                    const img = document.querySelector('#preview-img-' + uploadId);
+                    let currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
+                    currentScale = Math.min(currentScale + 0.1, 3); // 最大放大3倍
+                    img.style.transform = `scale(${currentScale})`;
+                    img.style.objectFit = 'contain';
+                });
+            });
+            
+            const zoomOutButtons = document.querySelectorAll('[id^="zoom-out-btn-"]');
+            zoomOutButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const uploadId = this.id.split('-')[3];
+                    const img = document.querySelector('#preview-img-' + uploadId);
+                    let currentScale = parseFloat(img.style.transform.replace('scale(', '').replace(')', '')) || 1;
+                    currentScale = Math.max(currentScale - 0.1, 0.5); // 最小缩小到0.5倍
+                    img.style.transform = `scale(${currentScale})`;
+                    img.style.objectFit = 'contain';
+                });
+            });
+            
+            // 图片拖拽调整位置功能
+            const previewImages = document.querySelectorAll('[id^="preview-img-"]');
+            previewImages.forEach(img => {
+                img.addEventListener('dblclick', function() {
+                    // 双击进入拖拽模式
+                    this.style.cursor = 'move';
+                    this.style.position = 'relative';
+                    
+                    let isDragging = false;
+                    let offsetX, offsetY;
+                    
+                    const startDrag = (e) => {
+                        isDragging = true;
+                        offsetX = e.clientX - this.getBoundingClientRect().left;
+                        offsetY = e.clientY - this.getBoundingClientRect().top;
+                        this.style.zIndex = 100;
+                    };
+                    
+                    const drag = (e) => {
+                        if (isDragging) {
+                            const container = this.parentElement;
+                            const containerRect = container.getBoundingClientRect();
+                            
+                            let newX = e.clientX - containerRect.left - offsetX;
+                            let newY = e.clientY - containerRect.top - offsetY;
+                            
+                            // 限制在容器内
+                            newX = Math.max(0, Math.min(newX, containerRect.width - this.offsetWidth));
+                            newY = Math.max(0, Math.min(newY, containerRect.height - this.offsetHeight));
+                            
+                            this.style.left = newX + 'px';
+                            this.style.top = newY + 'px';
+                        }
+                    };
+                    
+                    const stopDrag = () => {
+                        isDragging = false;
+                        this.style.zIndex = 1;
+                    };
+                    
+                    this.addEventListener('mousedown', startDrag);
+                    document.addEventListener('mousemove', drag);
+                    document.addEventListener('mouseup', stopDrag);
+                    
+                    // 3秒后退出拖拽模式
+                    setTimeout(() => {
+                        this.style.cursor = 'default';
+                        document.removeEventListener('mousemove', drag);
+                        document.removeEventListener('mouseup', stopDrag);
+                    }, 3000);
+                });
+            });
+
+            // AI模型选择
+            const modelOptions = document.querySelectorAll('.model-option');
+            modelOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除其他选项的选中状态
+                    modelOptions.forEach(opt => opt.classList.remove('selected'));
+                    // 设置当前选项为选中状态
+                    this.classList.add('selected');
+                    console.log('选择AI模型:', this.id);
+                });
+            });
+
+            // 生成纹样按钮
+            document.querySelector('#generate-patterns').addEventListener('click', function() {
+                if (!uploadedImageFeatures.image1 && !uploadedImageFeatures.image2) {
+                    alert('请先上传参考纹样图片');
+                    return;
+                }
+                
+                // 模拟生成过程
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>生成中...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-magic mr-3"></i>生成创新纹样';
+                    this.disabled = false;
+                    
+                    // 生成多个纹样变体
+                    generateMultiplePatterns();
+                    console.log('生成创新纹样');
+                }, 2000);
+            });
+
+            // 生成多个纹样变体
+            function generateMultiplePatterns() {
+                const patternGrid = document.querySelector('#generated-patterns-grid');
+                
+                // 获取当前参数
+                const params = {
+                    dyeConcentration: parseInt(document.querySelector('#dye-concentration').value),
+                    patternDensity: parseInt(document.querySelector('#pattern-density').value),
+                    fusionStrength: parseInt(document.querySelector('#fusion-strength').value),
+                    colorSaturation: parseInt(document.querySelector('#color-saturation').value),
+                    patternSize: parseInt(document.querySelector('#pattern-size').value)
+                };
+                
+                const features = uploadedImageFeatures.image1 || uploadedImageFeatures.image2;
+                
+                // 生成3个不同的变体
+                const patterns = [];
+                for (let i = 0; i < 3; i++) {
+                    // 微调参数创建变体
+                    const variantParams = {
+                        ...params,
+                        patternDensity: Math.max(10, params.patternDensity + (i - 1) * 10),
+                        patternSize: Math.max(10, params.patternSize + (i - 1) * 5)
+                    };
+                    
+                    // 使用不同的种子生成不同的变体
+                    const patternImage = generatePatternFromFeatures(features, variantParams, i);
+                    patterns.push({
+                        id: Date.now() + i,
+                        image: patternImage,
+                        name: `纹样设计 ${i + 1}`
+                    });
+                }
+                
+                // 更新显示
+                patternGrid.innerHTML = patterns.map((pattern, index) => `
+                    <div class="pattern-card glass-card rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02]">
+                        <div class="pattern-grid aspect-square relative">
+                            <img src="${pattern.image}" alt="${pattern.name}" class="w-full h-full object-cover" data-category="生成">
+                            ${index === 0 ? '<div class="absolute top-2 right-2"><span class="bg-accent text-white text-xs px-2 py-1 rounded-full">待用纹样</span></div>' : ''}
+                        </div>
+                        <div class="p-4">
+                            <input type="text" value="${pattern.name}" class="w-full bg-transparent text-white text-center font-medium mb-3 border-none outline-none hover:bg-white/10 rounded-lg p-2 transition-colors">
+                            <div class="flex space-x-2">
+                                <button class="download-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm" onclick="downloadPattern('${pattern.image}', '${pattern.name}')">
+                                    <i class="fas fa-download mr-1"></i>
+                                    下载
+                                </button>
+                                <button class="delete-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm" onclick="this.closest('.pattern-card').remove()">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                                <button class="select-btn flex-1 ${index === 0 ? 'bg-accent text-white' : 'glass-button text-white'} py-2 px-3 rounded-lg text-sm font-medium" onclick="selectPattern(this)">
+                                    ${index === 0 ? '已选中' : '设为待用'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 下载纹样函数
+            window.downloadPattern = function(imageData, name) {
+                const link = document.createElement('a');
+                link.href = imageData;
+                link.download = `${name}.png`;
+                link.click();
+            };
+
+            // 选择纹样函数
+            window.selectPattern = function(button) {
+                // 移除所有选中状态
+                document.querySelectorAll('.select-btn').forEach(btn => {
+                    if (btn !== button) {
+                        btn.textContent = '设为待用';
+                        btn.className = 'select-btn flex-1 glass-button text-white py-2 px-3 rounded-lg text-sm font-medium';
+                    }
+                });
+                
+                document.querySelectorAll('.pattern-card .absolute span').forEach(badge => {
+                    badge.remove();
+                });
+                
+                // 设置当前为选中状态
+                button.innerHTML = '已选中';
+                button.className = 'select-btn flex-1 bg-accent text-white py-2 px-3 rounded-lg text-sm font-medium';
+                
+                // 添加选中标记
+                const patternCard = button.closest('.pattern-card');
+                const imageContainer = patternCard.querySelector('.pattern-grid');
+                if (!imageContainer.querySelector('.absolute')) {
+                    const badge = document.createElement('div');
+                    badge.className = 'absolute top-2 right-2';
+                    badge.innerHTML = '<span class="bg-accent text-white text-xs px-2 py-1 rounded-full">待用纹样</span>';
+                    imageContainer.appendChild(badge);
+                }
+            };
+
+            // 清空所有生成纹样
+            document.querySelector('#clear-all-patterns').addEventListener('click', function() {
+                if (confirm('确定要清空所有生成纹样吗？')) {
+                    const patternGrid = document.querySelector('#generated-patterns-grid');
+                    patternGrid.innerHTML = '<div class="col-span-full text-center py-12"><i class="fas fa-images text-4xl text-white/40 mb-4"></i><p class="text-white/60">暂无生成纹样</p></div>';
+                    console.log('清空所有生成纹样');
+                }
+            });
+
+            // 纹样卡片操作
+            function setupPatternCardEvents() {
+                const patternCards = document.querySelectorAll('.pattern-card');
+                patternCards.forEach(card => {
+                    const deleteBtn = card.querySelector('.delete-btn');
+                    const selectBtn = card.querySelector('.select-btn');
+                    const downloadBtn = card.querySelector('.download-btn');
+                    const renameInput = card.querySelector('input[type="text"]');
+                    
+                    // 删除纹样
+                    deleteBtn.addEventListener('click', function() {
+                        if (confirm('确定要删除这个纹样吗？')) {
+                            card.remove();
+                            console.log('删除纹样');
+                        }
+                    });
+                    
+                    // 下载纹样
+                    downloadBtn.addEventListener('click', function() {
+                        console.log('下载纹样');
+                        // 这里应该是实际的下载逻辑
+                    });
+                    
+                    // 设为待用纹样
+                    selectBtn.addEventListener('click', function() {
+                        // 移除其他卡片的选中状态
+                        document.querySelectorAll('.pattern-card').forEach(c => {
+                            const btn = c.querySelector('.select-btn');
+                            const badge = c.querySelector('.absolute span');
+                            if (btn.textContent.trim() === '已选中') {
+                                btn.textContent = '设为待用';
+                                btn.className = 'select-btn flex-1 glass-button py-2 px-3 rounded-lg text-white text-sm';
+                            }
+                            if (badge) badge.remove();
+                        });
+                        
+                        // 设置当前卡片为选中状态
+                        this.textContent = '已选中';
+                        this.className = 'select-btn flex-1 bg-accent text-white py-2 px-3 rounded-lg text-sm font-medium';
+                        
+                        // 添加选中标识
+                        const imageContainer = card.querySelector('.pattern-grid');
+                        const badge = document.createElement('div');
+                        badge.className = 'absolute top-2 right-2';
+                        badge.innerHTML = '<span class="bg-accent text-white text-xs px-2 py-1 rounded-full">待用纹样</span>';
+                        imageContainer.style.position = 'relative';
+                        imageContainer.appendChild(badge);
+                        
+                        console.log('设为待用纹样');
+                    });
+                    
+                    // 重命名纹样
+                    renameInput.addEventListener('blur', function() {
+                        console.log('重命名纹样为:', this.value);
+                    });
+                });
+            }
+
+            // 初始化纹样卡片事件
+            setupPatternCardEvents();
+
+            // 导航菜单点击事件
+            document.querySelector('#nav-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HOME.html';
+            });
+            
+            document.querySelector('#nav-pattern-library').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-PATTERN_LIBRARY.html';
+            });
+            
+            document.querySelector('#nav-pattern-design').addEventListener('click', function(e) {
+                e.preventDefault();
+                // 已在当前页面，无需操作
+            });
+            
+            document.querySelector('#nav-element-combine').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-ELEMENT_COMBINE.html';
+            });
+            
+            document.querySelector('#nav-application').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-APPLICATION.html';
+            });
+            
+            document.querySelector('#nav-history').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HISTORY.html';
+            });
+            
+            document.querySelector('#nav-help').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HELP.html';
+            });
+        });
+    </script>
+</body>
+</html>

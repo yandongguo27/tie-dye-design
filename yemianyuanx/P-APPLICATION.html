@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品应用 - 染纹创合</title>
+    <script src="https://unpkg.byted-static.com/coze/space_ppt_lib/1.0.3-alpha.12/lib/tailwindcss.js"></script>
+    <script src="https://unpkg.byted-static.com/fortawesome/fontawesome-free/6.7.2/js/all.min.js" data-auto-replace-svg="nest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b396a',
+                        secondary: '#5773cf61',
+                        accent: '#304db0e6',
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                        'text-primary': '#1b396a',
+                        'text-secondary': '#304db0e6',
+                        'bg-glass': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1b396a 0%, #304db0e6 50%, #5773cf61 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .upload-area {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px 0 rgba(31, 38, 135, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+            transform: scale(1.05);
+        }
+        
+        .size-option {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .size-option:hover {
+            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .size-option.selected {
+            border-color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .pattern-grid {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body class="font-sans text-white">
+    <!-- 顶部导航栏 -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div id="logo-section" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">染纹创合</span>
+                </div>
+                
+                <!-- 主导航菜单 -->
+                <div id="nav-menu" class="hidden md:flex items-center space-x-8">
+                    <a href="P-HOME.html" id="nav-home" class="nav-link text-white/80 hover:text-white py-2">首页</a>
+                    <a href="P-PATTERN_DESIGN.html" id="nav-pattern-design" class="nav-link text-white/80 hover:text-white py-2">纹样设计</a>
+                    <a href="P-ELEMENT_COMBINE.html" id="nav-element-combine" class="nav-link text-white/80 hover:text-white py-2">元素组合</a>
+                    <a href="P-APPLICATION.html" id="nav-application" class="nav-link active text-white py-2">服饰/首饰应用</a>
+                    <a href="P-HISTORY.html" id="nav-history" class="nav-link text-white/80 hover:text-white py-2">历史记录</a>
+                    <a href="P-HELP.html" id="nav-help" class="nav-link text-white/80 hover:text-white py-2">帮助指南</a>
+                </div>
+                
+                <!-- 用户头像 -->
+                <div id="user-section" class="flex items-center space-x-4">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main id="main-content" class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- 页面头部 -->
+            <header id="page-header" class="mb-8">
+                <div class="flex items-center space-x-2 text-sm text-white/60 mb-2">
+                    <a href="P-HOME.html" class="hover:text-white">首页</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span class="text-white">产品应用</span>
+                </div>
+                <h1 class="text-3xl font-bold text-white">产品应用</h1>
+                <p class="text-white/70 mt-2">将您设计的精美纹样应用到服饰、首饰或文创产品上</p>
+            </header>
+
+            <!-- 左侧输入区 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 space-y-8">
+                    <!-- 产品图片上传区 -->
+                    <section id="product-upload-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-tshirt mr-3 text-white/80"></i>
+                            产品图片上传
+                        </h2>
+                        <div id="upload-product" class="upload-area rounded-xl p-6 text-center">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-white/60 mb-4"></i>
+                                <h3 class="text-lg font-medium text-white mb-2">上传产品图片</h3>
+                                <p class="text-sm text-white/70 mb-4">请上传平整的服饰/首饰/文创产品图片，如T恤、围巾、耳环、笔记本封面等</p>
+                                    <input type="file" id="product-file-input" accept="image/*" class="hidden">
+                                    <button id="select-product-file" class="glass-button px-6 py-2 rounded-lg text-white font-medium">
+                                        <i class="fas fa-folder-open mr-2"></i>
+                                        选择文件
+                                    </button>
+                            </div>
+                            <div id="product-preview" class="upload-preview hidden">
+                                <div class="relative w-full aspect-square bg-white/5 rounded-lg overflow-hidden mb-4">
+                                    <img id="product-image" src="" alt="产品图片预览" class="absolute top-0 left-0 w-full h-full object-contain">
+                                    <!-- 调整控制按钮 -->
+                                    <div id="image-controls" class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                                        <button id="resize-image" class="glass-button px-3 py-1 rounded-lg text-white text-sm">
+                                            <i class="fas fa-expand-arrows-alt mr-1"></i>
+                                            调整大小
+                                        </button>
+                                        <button id="move-image" class="glass-button px-3 py-1 rounded-lg text-white text-sm">
+                                            <i class="fas fa-arrows-alt mr-1"></i>
+                                            移动位置
+                                        </button>
+                                    </div>
+                                </div>
+                                <button id="remove-product" class="text-white/60 hover:text-white text-sm">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 已选中的待用纹样区 -->
+                    <section id="selected-pattern-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-star mr-3 text-white/80"></i>
+                            已选中的待用纹样
+                        </h2>
+                        <div class="text-center">
+                            <div id="selected-pattern-preview" class="mb-4">
+                                <div class="pattern-grid w-32 h-32 mx-auto rounded-lg overflow-hidden">
+                                    <img id="selected-pattern-image" src="https://s.coze.cn/image/TaRvIn3mV8o/" alt="已选中的待用纹样" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <button id="switch-pattern" class="glass-button px-6 py-2 rounded-lg text-white font-medium">
+                                <i class="fas fa-exchange-alt mr-2"></i>
+                                切换纹样
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- 效果图尺寸选择区 -->
+                    <section id="size-selection-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-expand-arrows-alt mr-3 text-white/80"></i>
+                            效果图尺寸选择
+                        </h2>
+                        <div class="space-y-4">
+                            <!-- 预设尺寸 -->
+                            <div class="space-y-2">
+                                <label class="block text-white/90 font-medium">预设尺寸</label>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="size-option selected rounded-lg p-3 text-center" data-size="300x300">
+                                        <div class="text-white font-medium text-sm">小</div>
+                                        <div class="text-white/70 text-xs">300x300</div>
+                                    </div>
+                                    <div class="size-option rounded-lg p-3 text-center" data-size="600x600">
+                                        <div class="text-white font-medium text-sm">中</div>
+                                        <div class="text-white/70 text-xs">600x600</div>
+                                    </div>
+                                    <div class="size-option rounded-lg p-3 text-center" data-size="1200x1200">
+                                        <div class="text-white font-medium text-sm">大</div>
+                                        <div class="text-white/70 text-xs">1200x1200</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 自定义尺寸 -->
+                            <div class="space-y-2">
+                                <label class="block text-white/90 font-medium">自定义尺寸</label>
+                                <div class="flex space-x-2">
+                                    <input type="number" id="custom-width" placeholder="宽度" class="w-24 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 focus:outline-none focus:border-white/50">
+                                    <span class="text-white/70 flex items-center">:</span>
+                                    <input type="number" id="custom-height" placeholder="高度" class="w-24 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 focus:outline-none focus:border-white/50">
+                                </div>
+                                <p class="text-xs text-white/50">建议保持比例，最大尺寸为2000x2000</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 操作按钮区 -->
+                    <section id="action-section" class="text-center">
+                        <button id="generate-preview" class="glass-button px-12 py-4 rounded-xl text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 w-full">
+                            <i class="fas fa-magic mr-3"></i>
+                            生成产品效果图
+                        </button>
+                    </section>
+                </div>
+
+                <!-- 右侧预览区 -->
+                <div class="lg:col-span-2">
+                    <!-- 产品效果图展示区 -->
+                    <section id="result-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-eye mr-3 text-white/80"></i>
+                            产品效果图预览
+                        </h2>
+                        
+                        <!-- 生成前的提示 -->
+                        <div id="result-placeholder" class="text-center py-16">
+                            <i class="fas fa-image text-6xl text-white/30 mb-4"></i>
+                            <h3 class="text-lg font-medium text-white/70 mb-2">等待生成效果图</h3>
+                            <p class="text-white/50">上传产品图片并选择纹样后，点击"生成产品效果图"按钮</p>
+                        </div>
+                        
+                        <!-- 生成中的状态 -->
+                        <div id="result-generating" class="text-center py-16 hidden">
+                            <i class="fas fa-spinner fa-spin text-6xl text-white/60 mb-4"></i>
+                            <h3 class="text-lg font-medium text-white/70 mb-2">正在生成效果图...</h3>
+                            <p class="text-white/50">请稍等，AI正在为您生成精美的产品效果图</p>
+                        </div>
+                        
+                        <!-- 生成后的结果 -->
+                        <div id="result-content" class="hidden">
+                            <div class="text-center mb-6">
+                                <img id="result-image" src="" alt="产品效果图" class="max-w-full rounded-lg shadow-lg">
+                            </div>
+                            <div class="flex justify-center space-x-4">
+                                <button id="download-result" class="glass-button px-8 py-3 rounded-lg text-white font-medium">
+                                    <i class="fas fa-download mr-2"></i>
+                                    下载效果图
+                                </button>
+                                <button id="regenerate-result" class="glass-button px-8 py-3 rounded-lg text-white font-medium">
+                                    <i class="fas fa-redo mr-2"></i>
+                                    重新生成
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 纹样选择器模态弹窗 -->
+    <div id="pattern-selector-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="relative flex items-center justify-center min-h-screen p-4">
+            <div class="glass-card rounded-2xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold text-white">选择纹样</h3>
+                    <button id="close-modal" class="text-white/60 hover:text-white text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- 纹样选项 -->
+                    <div class="pattern-option cursor-pointer rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1" data-pattern-id="pattern1">
+                        <div class="pattern-grid aspect-square">
+                            <img src="https://s.coze.cn/image/GyMc02mPodc/" alt="纹样选项 1" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-2 text-center">
+                            <span class="text-white/80 text-sm">传统蓝白</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-option cursor-pointer rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1" data-pattern-id="pattern2">
+                        <div class="pattern-grid aspect-square">
+                            <img src="https://s.coze.cn/image/q0vKddb-QNs/" alt="纹样选项 2" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-2 text-center">
+                            <span class="text-white/80 text-sm">撞色渐变</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-option cursor-pointer rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1" data-pattern-id="pattern3">
+                        <div class="pattern-grid aspect-square">
+                            <img src="https://s.coze.cn/image/CNKgo1LURBk/" alt="纹样选项 3" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-2 text-center">
+                            <span class="text-white/80 text-sm">水墨风格</span>
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-option cursor-pointer rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1" data-pattern-id="pattern4">
+                        <div class="pattern-grid aspect-square">
+                            <img src="https://s.coze.cn/image/ABcrHAgg4y0/" alt="纹样选项 4" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-2 text-center">
+                            <span class="text-white/80 text-sm">几何线条</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button id="cancel-selection" class="glass-button px-6 py-2 rounded-lg text-white font-medium">
+                        取消
+                    </button>
+                    <button id="confirm-selection" class="bg-accent text-white px-6 py-2 rounded-lg font-medium">
+                        确认选择
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航链接点击事件
+            document.querySelector('#nav-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HOME.html';
+            });
+
+            document.querySelector('#nav-pattern-design').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-PATTERN_DESIGN.html';
+            });
+
+            document.querySelector('#nav-element-combine').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-ELEMENT_COMBINE.html';
+            });
+
+            document.querySelector('#nav-application').addEventListener('click', function(e) {
+                e.preventDefault();
+                // 已在当前页面，无需操作
+            });
+
+            document.querySelector('#nav-history').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HISTORY.html';
+            });
+
+            document.querySelector('#nav-help').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HELP.html';
+            });
+
+            // 产品图片上传
+            document.querySelector('#select-product-file').addEventListener('click', function() {
+                // 触发文件选择对话框
+                document.querySelector('#product-file-input').click();
+            });
+            
+            // 存储上传的产品和纹样数据
+            let uploadedProductData = null;
+            let selectedPatternData = null;
+
+            // 文件选择处理
+            document.querySelector('#product-file-input').addEventListener('change', function() {
+                const preview = document.querySelector('#product-preview');
+                const content = document.querySelector('.upload-content');
+                const productImage = document.querySelector('#product-image');
+                
+                if (this.files && this.files[0]) {
+                    // 显示预览
+                    content.classList.add('hidden');
+                    preview.classList.remove('hidden');
+                    
+                    // 使用FileReader显示图片预览
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        productImage.src = e.target.result;
+                        productImage.alt = '上传的产品图片';
+                        uploadedProductData = e.target.result;
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                    
+                    console.log('上传产品图片: ' + this.files[0].name);
+                }
+            });
+
+            // 删除产品图片
+            document.querySelector('#remove-product').addEventListener('click', function() {
+                const preview = document.querySelector('#product-preview');
+                const content = document.querySelector('.upload-content');
+                
+                preview.classList.add('hidden');
+                content.classList.remove('hidden');
+                document.querySelector('#product-image').src = '';
+            });
+
+            // 切换纹样按钮
+            document.querySelector('#switch-pattern').addEventListener('click', function() {
+                document.querySelector('#pattern-selector-modal').classList.remove('hidden');
+            });
+
+            // 关闭模态弹窗
+            document.querySelector('#close-modal').addEventListener('click', function() {
+                document.querySelector('#pattern-selector-modal').classList.add('hidden');
+            });
+
+            document.querySelector('#cancel-selection').addEventListener('click', function() {
+                document.querySelector('#pattern-selector-modal').classList.add('hidden');
+            });
+
+            // 点击模态弹窗背景关闭
+            document.querySelector('#pattern-selector-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.add('hidden');
+                }
+            });
+
+            // 纹样选择
+            let selectedPatternId = 'pattern1';
+            document.querySelectorAll('.pattern-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除其他选项的选中状态
+                    document.querySelectorAll('.pattern-option').forEach(opt => {
+                        opt.classList.remove('ring-2', 'ring-white/50');
+                    });
+                    
+                    // 设置当前选项为选中状态
+                    this.classList.add('ring-2', 'ring-white/50');
+                    selectedPatternId = this.dataset.patternId;
+                });
+            });
+
+            // 确认选择纹样
+            document.querySelector('#confirm-selection').addEventListener('click', function() {
+                // 更新选中的纹样预览
+                const patternImages = {
+                    'pattern1': 'https://s.coze.cn/image/048pAbfo5GE/',
+                    'pattern2': 'https://s.coze.cn/image/fI_v5eeonEg/',
+                    'pattern3': 'https://s.coze.cn/image/8VkwF8f9SJk/',
+                    'pattern4': 'https://s.coze.cn/image/URtyre_S0Zs/'
+                };
+                
+                document.querySelector('#selected-pattern-image').src = patternImages[selectedPatternId];
+                selectedPatternData = patternImages[selectedPatternId];
+                document.querySelector('#pattern-selector-modal').classList.add('hidden');
+                
+                // 重置其他选项的选中状态
+                document.querySelectorAll('.pattern-option').forEach(opt => {
+                    opt.classList.remove('ring-2', 'ring-white/50');
+                });
+            });
+
+            // 尺寸选择
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除其他选项的选中状态
+                    document.querySelectorAll('.size-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // 设置当前选项为选中状态
+                    this.classList.add('selected');
+                    
+                    // 清空自定义尺寸输入框
+                    document.querySelector('#custom-width').value = '';
+                    document.querySelector('#custom-height').value = '';
+                });
+            });
+
+            // 自定义尺寸输入
+            document.querySelector('#custom-width').addEventListener('input', function() {
+                // 移除预设尺寸的选中状态
+                document.querySelectorAll('.size-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+            });
+
+            document.querySelector('#custom-height').addEventListener('input', function() {
+                // 移除预设尺寸的选中状态
+                document.querySelectorAll('.size-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+            });
+
+            // 将纹样应用到产品上
+            function applyPatternToProduct(productImageSrc, patternImageSrc) {
+                return new Promise((resolve) => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const productImg = new Image();
+                    productImg.crossOrigin = 'anonymous';
+                    
+                    productImg.onload = function() {
+                        canvas.width = productImg.width;
+                        canvas.height = productImg.height;
+                        
+                        // 绘制产品图片
+                        ctx.drawImage(productImg, 0, 0);
+                        
+                        // 加载纹样图片
+                        const patternImg = new Image();
+                        patternImg.crossOrigin = 'anonymous';
+                        
+                        patternImg.onload = function() {
+                            // 创建纹样图案
+                            const pattern = ctx.createPattern(patternImg, 'repeat');
+                            
+                            // 使用混合模式应用纹样
+                            ctx.globalCompositeOperation = 'multiply';
+                            ctx.globalAlpha = 0.7;
+                            
+                            if (pattern) {
+                                ctx.fillStyle = pattern;
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                            }
+                            
+                            // 恢复默认设置
+                            ctx.globalCompositeOperation = 'source-over';
+                            ctx.globalAlpha = 1;
+                            
+                            resolve(canvas.toDataURL('image/png'));
+                        };
+                        
+                        patternImg.onerror = function() {
+                            // 如果加载失败，尝试直接使用
+                            ctx.globalCompositeOperation = 'multiply';
+                            ctx.globalAlpha = 0.7;
+                            
+                            // 使用简单的覆盖方式
+                            const patternCanvas = document.createElement('canvas');
+                            patternCanvas.width = 200;
+                            patternCanvas.height = 200;
+                            const patternCtx = patternCanvas.getContext('2d');
+                            
+                            if (patternCtx) {
+                                // 创建一个简单的图案
+                                patternCtx.fillStyle = '#4a90e2';
+                                for (let i = 0; i < 5; i++) {
+                                    for (let j = 0; j < 5; j++) {
+                                        patternCtx.beginPath();
+                                        patternCtx.arc(i * 40 + 20, j * 40 + 20, 15, 0, Math.PI * 2);
+                                        patternCtx.fill();
+                                    }
+                                }
+                                
+                                const simplePattern = ctx.createPattern(patternCanvas, 'repeat');
+                                if (simplePattern) {
+                                    ctx.fillStyle = simplePattern;
+                                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                }
+                            }
+                            
+                            ctx.globalCompositeOperation = 'source-over';
+                            ctx.globalAlpha = 1;
+                            
+                            resolve(canvas.toDataURL('image/png'));
+                        };
+                        
+                        patternImg.src = patternImageSrc;
+                    };
+                    
+                    productImg.src = productImageSrc;
+                });
+            }
+
+            // 生成产品效果图
+            document.querySelector('#generate-preview').addEventListener('click', function() {
+                // 检查是否已上传产品图片
+                if (!uploadedProductData) {
+                    alert('请先上传产品图片');
+                    return;
+                }
+
+                // 显示生成中状态
+                document.querySelector('#result-placeholder').classList.add('hidden');
+                document.querySelector('#result-content').classList.add('hidden');
+                document.querySelector('#result-generating').classList.remove('hidden');
+
+                // 禁用生成按钮
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>生成中...';
+
+                // 获取选中的纹样
+                const patternSrc = selectedPatternData || document.querySelector('#selected-pattern-image').src;
+
+                // 生成产品效果图
+                applyPatternToProduct(uploadedProductData, patternSrc).then(resultImage => {
+                    // 恢复按钮状态
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-magic mr-3"></i>生成产品效果图';
+
+                    // 显示生成结果
+                    document.querySelector('#result-generating').classList.add('hidden');
+                    document.querySelector('#result-content').classList.remove('hidden');
+                    
+                    // 显示生成的效果图
+                    document.querySelector('#result-image').src = resultImage;
+                    document.querySelector('#result-image').alt = '生成的产品效果图';
+                    
+                    console.log('产品效果图生成完成');
+                }).catch(error => {
+                    console.error('生成效果图失败:', error);
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-magic mr-3"></i>生成产品效果图';
+                    alert('生成失败，请重试');
+                });
+            });
+
+            // 下载效果图
+            document.querySelector('#download-result').addEventListener('click', function() {
+                console.log('下载效果图功能需要实现文件下载');
+                // 模拟下载
+                const link = document.createElement('a');
+                link.href = document.querySelector('#result-image').src;
+                link.download = 'product-preview.png';
+                link.click();
+            });
+
+            // 重新生成
+            document.querySelector('#regenerate-result').addEventListener('click', function() {
+                document.querySelector('#generate-preview').click();
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 图片调整功能
+            let isResizing = false;
+            let isMoving = false;
+            let startX, startY, startWidth, startHeight, startLeft, startTop;
+            const productImage = document.querySelector('#product-image');
+            
+            // 调整大小按钮点击事件
+            document.querySelector('#resize-image').addEventListener('click', function() {
+                isResizing = !isResizing;
+                isMoving = false;
+                
+                if (isResizing) {
+                    this.classList.add('bg-white/20');
+                    document.querySelector('#move-image').classList.remove('bg-white/20');
+                    productImage.style.cursor = 'nwse-resize';
+                } else {
+                    this.classList.remove('bg-white/20');
+                    productImage.style.cursor = 'default';
+                }
+            });
+            
+            // 移动位置按钮点击事件
+            document.querySelector('#move-image').addEventListener('click', function() {
+                isMoving = !isMoving;
+                isResizing = false;
+                
+                if (isMoving) {
+                    this.classList.add('bg-white/20');
+                    document.querySelector('#resize-image').classList.remove('bg-white/20');
+                    productImage.style.cursor = 'move';
+                } else {
+                    this.classList.remove('bg-white/20');
+                    productImage.style.cursor = 'default';
+                }
+            });
+            
+            // 图片鼠标按下事件
+            productImage.addEventListener('mousedown', function(e) {
+                if (isResizing || isMoving) {
+                    e.preventDefault();
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    
+                    if (isResizing) {
+                        startWidth = parseInt(document.defaultView.getComputedStyle(this).width, 10);
+                        startHeight = parseInt(document.defaultView.getComputedStyle(this).height, 10);
+                    } else if (isMoving) {
+                        startLeft = parseInt(document.defaultView.getComputedStyle(this).left, 10) || 0;
+                        startTop = parseInt(document.defaultView.getComputedStyle(this).top, 10) || 0;
+                    }
+                    
+                    // 添加鼠标移动和释放事件监听器
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                }
+            });
+            
+            // 鼠标移动事件
+            function onMouseMove(e) {
+                e.preventDefault();
+                
+                if (isResizing) {
+                    // 计算新的尺寸
+                    const width = startWidth + (e.clientX - startX);
+                    const height = startHeight + (e.clientY - startY);
+                    
+                    // 限制最小尺寸
+                    if (width > 50 && height > 50) {
+                        productImage.style.width = width + 'px';
+                        productImage.style.height = height + 'px';
+                    }
+                } else if (isMoving) {
+                    // 计算新的位置
+                    const left = startLeft + (e.clientX - startX);
+                    const top = startTop + (e.clientY - startY);
+                    
+                    // 限制在容器内
+                    const container = productImage.parentElement;
+                    const containerRect = container.getBoundingClientRect();
+                    const imageRect = productImage.getBoundingClientRect();
+                    
+                    if (left <= containerRect.width - imageRect.width && left >= 0) {
+                        productImage.style.left = left + 'px';
+                    }
+                    if (top <= containerRect.height - imageRect.height && top >= 0) {
+                        productImage.style.top = top + 'px';
+                    }
+                }
+            }
+            
+            // 鼠标释放事件
+            function onMouseUp() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+        });
+    </script>
+</body>
+</html>

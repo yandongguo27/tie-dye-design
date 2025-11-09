@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元素组合 - 染纹创合</title>
+    <script src="https://unpkg.byted-static.com/coze/space_ppt_lib/1.0.3-alpha.12/lib/tailwindcss.js"></script>
+    <script src="https://unpkg.byted-static.com/fortawesome/fontawesome-free/6.7.2/js/all.min.js" data-auto-replace-svg="nest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1b396a',
+                        secondary: '#5773cf61',
+                        accent: '#304db0e6',
+                        glass: 'rgba(255, 255, 255, 0.1)',
+                        'glass-border': 'rgba(255, 255, 255, 0.2)',
+                        'text-primary': '#1b396a',
+                        'text-secondary': '#304db0e6',
+                        'bg-glass': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1b396a 0%, #304db0e6 50%, #5773cf61 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .glass-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+            transform: translateY(-2px) scale(1.02);
+        }
+        
+        .upload-area {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px 0 rgba(31, 38, 135, 0.3);
+        }
+        
+        .slider-track {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        
+        .slider-thumb {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .slider-thumb:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+        
+        .pattern-grid {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+            transform: scale(1.05);
+        }
+        
+        .composition-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .composition-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px 0 rgba(31, 38, 135, 0.3);
+        }
+        
+        .composition-option.selected {
+            background: rgba(48, 77, 176, 0.4);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(48, 77, 176, 0.5);
+        }
+        
+        .parameter-control {
+            opacity: 0.5;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .parameter-control.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="font-sans text-white">
+    <!-- 顶部导航栏 -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div id="logo-section" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-palette text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-white">染纹创合</span>
+                </div>
+                
+                <!-- 主导航菜单 -->
+                <div id="nav-menu" class="hidden md:flex items-center space-x-8">
+                    <a href="P-HOME.html" id="nav-home" class="nav-link text-white/80 hover:text-white py-2">首页</a>
+                    <a href="P-PATTERN_DESIGN.html" id="nav-pattern-design" class="nav-link text-white/80 hover:text-white py-2">纹样设计</a>
+                    <a href="P-ELEMENT_COMBINE.html" id="nav-element-combine" class="nav-link active text-white py-2">元素组合</a>
+                    <a href="P-APPLICATION.html" id="nav-application" class="nav-link text-white/80 hover:text-white py-2">服饰/首饰应用</a>
+                    <a href="P-HISTORY.html" id="nav-history" class="nav-link text-white/80 hover:text-white py-2">历史记录</a>
+                    <a href="P-HELP.html" id="nav-help" class="nav-link text-white/80 hover:text-white py-2">帮助指南</a>
+                </div>
+                
+                <!-- 用户头像 -->
+                <div id="user-section" class="flex items-center space-x-4">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/10 flex items-center justify-center">
+                        <i class="fas fa-user text-white text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main id="main-content" class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- 页面头部 -->
+            <header id="page-header" class="mb-8">
+                <div class="flex items-center space-x-2 text-sm text-white/60 mb-2">
+                    <a href="P-HOME.html" class="hover:text-white">首页</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span class="text-white">元素组合</span>
+                </div>
+                <h1 class="text-3xl font-bold text-white">元素组合</h1>
+                <p class="text-white/70 mt-2">通过元素上传和构图选择进行纹样重组设计</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- 左侧输入区 -->
+                <div class="lg:col-span-1 space-y-8">
+                    <!-- 元素上传区 -->
+                    <section id="element-upload-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-cloud-upload-alt mr-3 text-white/80"></i>
+                            元素上传
+                        </h2>
+                        <div id="upload-element" class="upload-area rounded-xl p-6 text-center aspect-square relative">
+                            <div class="upload-content h-full flex flex-col items-center justify-center">
+                                <i class="fas fa-image text-4xl text-white/60 mb-4"></i>
+                                <h3 class="text-lg font-medium text-white mb-2">上传元素图片</h3>
+                                <p class="text-sm text-white/70 mb-4">点击上传或拖拽图片到此处</p>
+                                    <input type="file" id="element-file-input" accept="image/*" class="hidden">
+                                    <button id="select-element-file" class="glass-button px-6 py-2 rounded-lg text-white font-medium">
+                                        <i class="fas fa-folder-open mr-2"></i>
+                                        选择文件
+                                    </button>
+                            </div>
+                            <div id="element-preview" class="upload-preview hidden absolute inset-0 flex flex-col items-center justify-center">
+                                <div id="image-container" class="relative w-full h-full flex items-center justify-center">
+                                    <img id="element-image" src="" alt="元素预览" class="max-w-full max-h-full object-contain rounded-lg">
+                                    <!-- 调整控制按钮 -->
+                                    <div id="image-controls" class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                                        <button id="resize-image" class="glass-button p-2 rounded-full text-white">
+                                            <i class="fas fa-expand-alt"></i>
+                                        </button>
+                                        <button id="move-image" class="glass-button p-2 rounded-full text-white">
+                                            <i class="fas fa-arrows-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button id="remove-element" class="text-white/60 hover:text-white text-sm mt-4">
+                                    <i class="fas fa-trash mr-1"></i>
+                                    删除
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 构图选择区 -->
+                    <section id="composition-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-th-large mr-3 text-white/80"></i>
+                            构图选择
+                        </h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="composition-option selected rounded-xl p-4 text-center" data-composition="symmetric">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-balance-scale text-white text-lg"></i>
+                                </div>
+                                <span class="text-sm text-white/90">对称</span>
+                            </div>
+                            <div class="composition-option rounded-xl p-4 text-center" data-composition="corners">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-th text-white text-lg"></i>
+                                </div>
+                                <span class="text-sm text-white/90">置于四角</span>
+                            </div>
+                            <div class="composition-option rounded-xl p-4 text-center" data-composition="center-line">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-minus text-white text-lg"></i>
+                                </div>
+                                <span class="text-sm text-white/90">中线对称</span>
+                            </div>
+                            <div class="composition-option rounded-xl p-4 text-center" data-composition="repeat">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-copy text-white text-lg"></i>
+                                </div>
+                                <span class="text-sm text-white/90">重复排列</span>
+                            </div>
+                            <div class="composition-option rounded-xl p-4 text-center" data-composition="radial">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-circle-notch text-white text-lg"></i>
+                                </div>
+                                <span class="text-sm text-white/90">放射状</span>
+                            </div>
+                            <div class="composition-option rounded-xl p-4 text-center" data-composition="random">
+                                <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-dice text-white text-lg"></i>
+                                </div>
+                                <span class="text-sm text-white/90">随机分布</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 重组参数区 -->
+                    <section id="parameters-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-sliders-h mr-3 text-white/80"></i>
+                            重组参数
+                        </h2>
+                        
+                        <!-- 元素大小 -->
+                        <div class="parameter-item mb-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">元素大小</label>
+                                <span class="text-white/70 text-sm" id="element-size-value">50%</span>
+                            </div>
+                            <input type="range" id="element-size" class="w-full h-2 slider-track appearance-none cursor-pointer parameter-control active" min="10" max="200" value="50">
+                        </div>
+                        
+                        <!-- 间距调整 -->
+                        <div class="parameter-item mb-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">间距调整</label>
+                                <span class="text-white/70 text-sm" id="spacing-value">50%</span>
+                            </div>
+                            <input type="range" id="spacing" class="w-full h-2 slider-track appearance-none cursor-pointer parameter-control active" min="0" max="100" value="50">
+                        </div>
+                        
+                        <!-- 旋转角度 -->
+                        <div class="parameter-item mb-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">旋转角度</label>
+                                <span class="text-white/70 text-sm" id="rotation-value">0°</span>
+                            </div>
+                            <input type="range" id="rotation" class="w-full h-2 slider-track appearance-none cursor-pointer parameter-control active" min="0" max="360" value="0">
+                        </div>
+                        
+                        <!-- 透明度 -->
+                        <div class="parameter-item">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-white/90 font-medium">透明度</label>
+                                <span class="text-white/70 text-sm" id="opacity-value">100%</span>
+                            </div>
+                            <input type="range" id="opacity" class="w-full h-2 slider-track appearance-none cursor-pointer parameter-control active" min="0" max="100" value="100">
+                        </div>
+                    </section>
+
+                    <!-- 操作按钮区 -->
+                    <section id="action-section" class="text-center">
+                        <button id="generate-combination" class="glass-button px-12 py-4 rounded-xl text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                            <i class="fas fa-magic mr-3"></i>
+                            生成组合纹样
+                        </button>
+                    </section>
+                </div>
+
+                <!-- 右侧预览区 -->
+                <div class="lg:col-span-2">
+                    <!-- 组合纹样展示区 -->
+                    <section id="combination-preview-section" class="glass-card rounded-2xl p-6">
+                        <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
+                            <i class="fas fa-eye mr-3 text-white/80"></i>
+                            组合纹样预览
+                        </h2>
+                        
+                        <div id="preview-container" class="pattern-grid aspect-square rounded-xl mb-6 relative overflow-hidden">
+                            <div id="combination-preview" class="w-full h-full flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fas fa-magic text-6xl text-white/40 mb-4"></i>
+                                    <p class="text-white/60">上传元素并选择构图后生成组合纹样</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 多角度预览 -->
+                        <div id="multi-angle-preview" class="grid grid-cols-3 gap-4 mb-6 hidden">
+                            <div class="aspect-square bg-white/10 rounded-lg flex items-center justify-center">
+                                <span class="text-white/60 text-sm">正面</span>
+                            </div>
+                            <div class="aspect-square bg-white/10 rounded-lg flex items-center justify-center">
+                                <span class="text-white/60 text-sm">45°角</span>
+                            </div>
+                            <div class="aspect-square bg-white/10 rounded-lg flex items-center justify-center">
+                                <span class="text-white/60 text-sm">侧面</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 操作按钮 -->
+                        <!-- 操作按钮 -->
+                        <div id="preview-actions" class="flex flex-wrap justify-center gap-4 mt-6">
+                            <button id="update-preview" class="glass-button px-6 py-3 rounded-lg text-white font-medium">
+                                <i class="fas fa-sync-alt mr-2"></i>
+                                更新预览
+                            </button>
+                            <button id="download-combination" class="glass-button px-6 py-3 rounded-lg text-white font-medium">
+                                <i class="fas fa-download mr-2"></i>
+                                下载组合纹样
+                            </button>
+                            <button id="download-preview" class="bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-all duration-300">
+                                <i class="fas fa-image mr-2"></i>
+                                下载预览图
+                            </button>
+                            <button id="set-as-active" class="glass-button px-6 py-3 rounded-lg text-white font-medium">
+                                <i class="fas fa-check mr-2"></i>
+                                设为待用纹样
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航按钮点击事件
+            document.querySelector('#nav-home').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HOME.html';
+            });
+
+            document.querySelector('#nav-pattern-design').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-PATTERN_DESIGN.html';
+            });
+
+            document.querySelector('#nav-element-combine').addEventListener('click', function(e) {
+                e.preventDefault();
+                // 已在当前页面，无需操作
+            });
+
+            document.querySelector('#nav-application').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-APPLICATION.html';
+            });
+
+            document.querySelector('#nav-history').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HISTORY.html';
+            });
+
+            document.querySelector('#nav-help').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'P-HELP.html';
+            });
+
+            // 元素上传功能
+            document.querySelector('#select-element-file').addEventListener('click', function() {
+                // 触发文件选择对话框
+                document.querySelector('#element-file-input').click();
+            });
+            
+            // 存储上传元素的数据
+            let uploadedElementData = null;
+
+            // 文件选择处理
+            document.querySelector('#element-file-input').addEventListener('change', function() {
+                const preview = document.querySelector('#element-preview');
+                const content = document.querySelector('.upload-content');
+                const elementImage = document.querySelector('#element-image');
+                
+                if (this.files && this.files[0]) {
+                    // 显示预览
+                    content.classList.add('hidden');
+                    preview.classList.remove('hidden');
+                    
+                    // 使用FileReader显示图片预览
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        elementImage.src = e.target.result;
+                        uploadedElementData = e.target.result;
+                        // 初始化图片调整功能
+                        initImageManipulation();
+                        // 自动更新组合预览
+                        updateCombinationPreview();
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                    
+                    console.log('上传元素图片: ' + this.files[0].name);
+                }
+            });
+
+            // 删除元素
+            document.querySelector('#remove-element').addEventListener('click', function() {
+                const preview = document.querySelector('#element-preview');
+                const content = document.querySelector('.upload-content');
+                
+                preview.classList.add('hidden');
+                content.classList.remove('hidden');
+                console.log('删除元素图片');
+            });
+
+            // 构图选择
+            const compositionOptions = document.querySelectorAll('.composition-option');
+            compositionOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 移除其他选项的选中状态
+                    compositionOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // 设置当前选项为选中状态
+                    this.classList.add('selected');
+                    
+                    const compositionType = this.dataset.composition;
+                    console.log('选择构图类型:', compositionType);
+                    
+                    // 根据构图类型显示/隐藏参数控制
+                    updateParameterControls(compositionType);
+                    
+                    // 如果已上传元素，自动更新预览
+                    if (uploadedElementData) {
+                        updateCombinationPreview();
+                    }
+                });
+            });
+
+            // 参数滑块实时更新
+            const sliders = document.querySelectorAll('input[type="range"]');
+            sliders.forEach(slider => {
+                const valueDisplay = document.querySelector('#' + slider.id + '-value');
+                slider.addEventListener('input', function() {
+                    if (slider.id === 'rotation') {
+                        valueDisplay.textContent = this.value + '°';
+                    } else {
+                        valueDisplay.textContent = this.value + '%';
+                    }
+                    
+                    // 如果有上传的元素，实时更新预览
+                    if (uploadedElementData) {
+                        updateCombinationPreview();
+                    }
+                });
+            });
+
+            // 生成组合纹样
+            document.querySelector('#generate-combination').addEventListener('click', function() {
+                if (!uploadedElementData) {
+                    alert('请先上传元素图片');
+                    return;
+                }
+                
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>生成中...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-magic mr-3"></i>生成组合纹样';
+                    this.disabled = false;
+                    
+                    // 显示组合预览
+                    showCombinationPreview();
+                    console.log('生成组合纹样');
+                }, 2000);
+            });
+
+            // 下载组合纹样
+            document.querySelector('#download-combination').addEventListener('click', function() {
+                console.log('下载组合纹样');
+                const previewImage = document.querySelector('#combination-preview img');
+                if (previewImage && previewImage.src) {
+                    const link = document.createElement('a');
+                    link.href = previewImage.src;
+                    link.download = 'combination_pattern.png';
+                    link.click();
+                } else {
+                    alert('请先生成组合纹样');
+                }
+            });
+            
+            // 下载预览图
+            document.querySelector('#download-preview').addEventListener('click', function() {
+                console.log('下载预览图');
+                const previewImage = document.querySelector('#combination-preview img');
+                if (previewImage && previewImage.src) {
+                    const link = document.createElement('a');
+                    link.href = previewImage.src;
+                    link.download = 'preview_image.png';
+                    link.click();
+                } else {
+                    alert('请先生成组合纹样');
+                }
+            });
+
+            // 设为待用纹样
+            document.querySelector('#set-as-active').addEventListener('click', function() {
+                const currentText = this.textContent.trim();
+                if (currentText.includes('设为待用')) {
+                    this.innerHTML = '<i class="fas fa-check mr-2"></i>已设为待用';
+                    this.className = 'bg-green-500 text-white px-6 py-3 rounded-lg font-medium';
+                    
+                    // 跳转到应用页面
+                    setTimeout(() => {
+                        window.location.href = 'P-APPLICATION.html?patternId=combination_123';
+                    }, 1000);
+                }
+            });
+
+            // 根据构图类型更新参数控制
+            function updateParameterControls(compositionType) {
+                const allControls = document.querySelectorAll('.parameter-control');
+                
+                // 重置所有控件为可用状态
+                allControls.forEach(control => {
+                    control.classList.add('active');
+                });
+                
+                // 根据构图类型特殊处理
+                switch(compositionType) {
+                    case 'symmetric':
+                        // 对称构图：所有参数都可用
+                        break;
+                    case 'corners':
+                        // 置于四角：隐藏旋转角度
+                        document.querySelector('#rotation').classList.remove('active');
+                        break;
+                    case 'center-line':
+                        // 中线对称：隐藏旋转角度
+                        document.querySelector('#rotation').classList.remove('active');
+                        break;
+                    case 'repeat':
+                        // 重复排列：所有参数都可用
+                        break;
+                    case 'radial':
+                        // 放射状：隐藏旋转角度
+                        document.querySelector('#rotation').classList.remove('active');
+                        break;
+                    case 'random':
+                        // 随机分布：隐藏间距调整
+                        document.querySelector('#spacing').classList.remove('active');
+                        break;
+                }
+            }
+
+            // 根据构图方式生成组合纹样
+            function generateCombinationPattern(elementImageSrc, composition, params) {
+                return new Promise((resolve) => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = 800;
+                    canvas.height = 800;
+                    
+                    // 背景色
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    const img = new Image();
+                    img.onload = function() {
+                        const centerX = canvas.width / 2;
+                        const centerY = canvas.height / 2;
+                        const elementSize = params.elementSize;
+                        const spacing = params.spacing * 3;
+                        const rotation = params.rotation * Math.PI / 180;
+                        const opacity = params.opacity / 100;
+                        
+                        ctx.globalAlpha = opacity;
+                        
+                        switch(composition) {
+                            case 'symmetric':
+                                // 对称布局 - 4个角
+                                const positions = [
+                                    [centerX - spacing, centerY - spacing],
+                                    [centerX + spacing, centerY - spacing],
+                                    [centerX - spacing, centerY + spacing],
+                                    [centerX + spacing, centerY + spacing]
+                                ];
+                                positions.forEach((pos, index) => {
+                                    ctx.save();
+                                    ctx.translate(pos[0], pos[1]);
+                                    ctx.rotate(rotation + (index * Math.PI / 2));
+                                    ctx.drawImage(img, -elementSize/2, -elementSize/2, elementSize, elementSize);
+                                    ctx.restore();
+                                });
+                                break;
+                                
+                            case 'corners':
+                                // 置于四角
+                                const cornerPositions = [
+                                    [elementSize/2, elementSize/2],
+                                    [canvas.width - elementSize/2, elementSize/2],
+                                    [elementSize/2, canvas.height - elementSize/2],
+                                    [canvas.width - elementSize/2, canvas.height - elementSize/2]
+                                ];
+                                cornerPositions.forEach(pos => {
+                                    ctx.save();
+                                    ctx.translate(pos[0], pos[1]);
+                                    ctx.drawImage(img, -elementSize/2, -elementSize/2, elementSize, elementSize);
+                                    ctx.restore();
+                                });
+                                break;
+                                
+                            case 'center-line':
+                                // 中线对称
+                                for (let i = 0; i < 5; i++) {
+                                    const y = (canvas.height / 6) * (i + 1);
+                                    ctx.save();
+                                    ctx.translate(centerX - spacing, y);
+                                    ctx.drawImage(img, -elementSize/2, -elementSize/2, elementSize, elementSize);
+                                    ctx.restore();
+                                    
+                                    ctx.save();
+                                    ctx.translate(centerX + spacing, y);
+                                    ctx.scale(-1, 1);
+                                    ctx.drawImage(img, -elementSize/2, -elementSize/2, elementSize, elementSize);
+                                    ctx.restore();
+                                }
+                                break;
+                                
+                            case 'repeat':
+                                // 重复排列
+                                const cols = Math.floor(canvas.width / (elementSize + spacing));
+                                const rows = Math.floor(canvas.height / (elementSize + spacing));
+                                for (let row = 0; row < rows; row++) {
+                                    for (let col = 0; col < cols; col++) {
+                                        const x = (col + 0.5) * (elementSize + spacing);
+                                        const y = (row + 0.5) * (elementSize + spacing);
+                                        ctx.save();
+                                        ctx.translate(x, y);
+                                        ctx.rotate(rotation);
+                                        ctx.drawImage(img, -elementSize/2, -elementSize/2, elementSize, elementSize);
+                                        ctx.restore();
+                                    }
+                                }
+                                break;
+                                
+                            case 'radial':
+                                // 放射状
+                                const numElements = 8;
+                                for (let i = 0; i < numElements; i++) {
+                                    const angle = (i / numElements) * Math.PI * 2;
+                                    const x = centerX + Math.cos(angle) * spacing;
+                                    const y = centerY + Math.sin(angle) * spacing;
+                                    ctx.save();
+                                    ctx.translate(x, y);
+                                    ctx.rotate(angle + rotation);
+                                    ctx.drawImage(img, -elementSize/2, -elementSize/2, elementSize, elementSize);
+                                    ctx.restore();
+                                }
+                                break;
+                                
+                            case 'random':
+                                // 随机分布
+                                for (let i = 0; i < 15; i++) {
+                                    const x = Math.random() * canvas.width;
+                                    const y = Math.random() * canvas.height;
+                                    const randomRotation = Math.random() * Math.PI * 2;
+                                    const randomSize = elementSize * (0.5 + Math.random() * 0.5);
+                                    ctx.save();
+                                    ctx.translate(x, y);
+                                    ctx.rotate(randomRotation);
+                                    ctx.drawImage(img, -randomSize/2, -randomSize/2, randomSize, randomSize);
+                                    ctx.restore();
+                                }
+                                break;
+                        }
+                        
+                        ctx.globalAlpha = 1;
+                        resolve(canvas.toDataURL('image/png'));
+                    };
+                    img.src = elementImageSrc;
+                });
+            }
+
+            // 更新组合预览
+            function updateCombinationPreview() {
+                if (!uploadedElementData) return;
+                
+                const previewContainer = document.querySelector('#combination-preview');
+                const elementSize = parseInt(document.querySelector('#element-size').value);
+                const spacing = parseInt(document.querySelector('#spacing').value);
+                const rotation = parseInt(document.querySelector('#rotation').value);
+                const opacity = parseInt(document.querySelector('#opacity').value);
+                
+                // 获取选中的构图方式
+                const selectedComposition = document.querySelector('.composition-option.selected');
+                const composition = selectedComposition ? selectedComposition.dataset.composition : 'symmetric';
+                
+                const params = {
+                    elementSize: elementSize,
+                    spacing: spacing,
+                    rotation: rotation,
+                    opacity: opacity
+                };
+                
+                // 生成组合预览
+                generateCombinationPattern(uploadedElementData, composition, params).then(imageData => {
+                    previewContainer.innerHTML = `
+                        <img src="${imageData}" alt="组合纹样预览" class="w-full h-full object-cover">
+                    `;
+                });
+                
+                console.log('更新组合预览，构图:', composition, '参数:', params);
+            }
+
+            // 显示组合预览
+            function showCombinationPreview() {
+                const multiAnglePreview = document.querySelector('#multi-angle-preview');
+                const previewActions = document.querySelector('#preview-actions');
+                
+                // 使用当前参数生成最终预览
+                updateCombinationPreview();
+                
+                // 显示多角度预览和操作按钮
+                multiAnglePreview.classList.remove('hidden');
+                previewActions.classList.remove('hidden');
+                
+                console.log('显示组合纹样预览');
+            }
+            
+            // 更新预览按钮点击事件
+            document.querySelector('#update-preview').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>更新中...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-sync-alt mr-2"></i>更新预览';
+                    this.disabled = false;
+                    
+                    // 重新生成预览
+                    updateCombinationPreview();
+                    console.log('更新组合纹样预览');
+                }, 1000);
+            });
+            // 图片操作功能
+            function initImageManipulation() {
+                const elementImage = document.querySelector('#element-image');
+                const resizeButton = document.querySelector('#resize-image');
+                const moveButton = document.querySelector('#move-image');
+                
+                let isResizing = false;
+                let isMoving = false;
+                let currentScale = 1;
+                let currentX = 0;
+                let currentY = 0;
+                let startX, startY;
+                
+                // 调整大小功能
+                resizeButton.addEventListener('click', function() {
+                    isResizing = !isResizing;
+                    isMoving = false;
+                    
+                    if (isResizing) {
+                        resizeButton.classList.add('bg-accent');
+                        moveButton.classList.remove('bg-accent');
+                        elementImage.style.cursor = 'nwse-resize';
+                    } else {
+                        resizeButton.classList.remove('bg-accent');
+                        elementImage.style.cursor = 'default';
+                    }
+                });
+                
+                // 移动功能
+                moveButton.addEventListener('click', function() {
+                    isMoving = !isMoving;
+                    isResizing = false;
+                    
+                    if (isMoving) {
+                        moveButton.classList.add('bg-accent');
+                        resizeButton.classList.remove('bg-accent');
+                        elementImage.style.cursor = 'move';
+                    } else {
+                        moveButton.classList.remove('bg-accent');
+                        elementImage.style.cursor = 'default';
+                    }
+                });
+                
+                // 鼠标滚轮调整大小
+                elementImage.addEventListener('wheel', function(e) {
+                    if (isResizing) {
+                        e.preventDefault();
+                        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                        currentScale = Math.max(0.1, Math.min(3, currentScale + delta));
+                        elementImage.style.transform = `scale(${currentScale}) translate(${currentX}px, ${currentY}px)`;
+                    }
+                });
+                
+                // 鼠标拖动移动图片
+                elementImage.addEventListener('mousedown', function(e) {
+                    if (isMoving) {
+                        e.preventDefault();
+                        startX = e.clientX - currentX;
+                        startY = e.clientY - currentY;
+                        
+                        function onMouseMove(e) {
+                            currentX = e.clientX - startX;
+                            currentY = e.clientY - startY;
+                            elementImage.style.transform = `scale(${currentScale}) translate(${currentX}px, ${currentY}px)`;
+                        }
+                        
+                        function onMouseUp() {
+                            document.removeEventListener('mousemove', onMouseMove);
+                            document.removeEventListener('mouseup', onMouseUp);
+                        }
+                        
+                        document.addEventListener('mousemove', onMouseMove);
+                        document.addEventListener('mouseup', onMouseUp);
+                    }
+                });
+            }
+            
+            // 拖拽上传支持
+            const uploadArea = document.querySelector('#upload-element');
+            const fileInput = document.querySelector('#element-file-input');
+            
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('bg-white/15');
+            });
+            
+            uploadArea.addEventListener('dragleave', function() {
+                this.classList.remove('bg-white/15');
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('bg-white/15');
+                
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    fileInput.files = e.dataTransfer.files;
+                    // 手动触发change事件
+                    const event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
