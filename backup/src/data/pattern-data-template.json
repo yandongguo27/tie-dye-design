@@ -1,0 +1,30 @@
+{
+  "patterns": [
+    {
+      "id": "pattern-001",
+      "culturalArtifact": {
+        "name": "青铜鼎",
+        "image": "/images/artifacts/bronze-ding.jpg",
+        "description": "商周时期青铜器，用于祭祀和宴飨"
+      },
+      "extractedImage": {
+        "image": "/images/extracted/bronze-ding-pattern.jpg"
+      },
+      "patternName": {
+        "name": "饕餮纹"
+      },
+      "patternSemantics": {
+        "description": "饕餮纹是中国古代青铜器上常见的纹饰，具有神秘的宗教色彩和威严的象征意义，体现了古代先民对神灵的敬畏和对权力的崇拜。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/taotie-elements.jpg"
+      },
+      "vectorPattern": {
+        "image": "/images/vectors/taotie-vector.svg"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/taotie-modern.jpg"
+      }
+    }
+  ]
+}

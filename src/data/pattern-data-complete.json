@@ -1,0 +1,468 @@
+{
+  "patterns": [
+    {
+      "id": "pattern-001",
+      "culturalArtifact": {
+        "name": "彩陶花叶曲腹钵（新石器时代-仰韶文化）",
+        "image": "/images/artifacts/1.png",
+        "description": "文物原型1"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/1.png"
+      },
+      "patternName": {
+        "name": "旋花纹（1）\n旋花纹（2）\n旋花纹（3）"
+      },
+      "patternSemantics": {
+        "description": "漩涡状纹样呈多层排列，与边缘保持一定的距离，以二方连续的形式水平扩展，向内收缩填充图案，以局部精美的细节凸显整体的美感。受宗教影响，纹样组合带有强烈的神圣感。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/1.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/1.png"
+      }
+    },
+    {
+      "id": "pattern-002",
+      "culturalArtifact": {
+        "name": "召卣（西周）",
+        "image": "/images/artifacts/2.png",
+        "description": "文物原型2"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/2.png"
+      },
+      "patternName": {
+        "name": "云雷纹"
+      },
+      "patternSemantics": {
+        "description": "云雷纹通常以强烈的几何形状为装饰特征，前期常用于底纹，到后期才作为独立装饰。它可以与乳丁纹一起使用，形成方形网格的乳丁云雷纹;也可以与丁形纹一起组合成勾连雷纹。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/2.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/2.png"
+      }
+    },
+    {
+      "id": "pattern-003",
+      "culturalArtifact": {
+        "name": "龙形卷云纹铜壶战国（襄阳陈坡10号楚墓出土）",
+        "image": "/images/artifacts/3.png",
+        "description": "文物原型3"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/3.png"
+      },
+      "patternName": {
+        "name": "云纹"
+      },
+      "patternSemantics": {
+        "description": "云纹以独立的主体纹样开始，风格豪放，组合样式稳重简洁且丝毫不乏丰富纤细之感。云纹多变的风格，能在纹样的组合上带动整体的韵律，动态视觉感受强烈，具有美感。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/3.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/3.png"
+      }
+    },
+    {
+      "id": "pattern-004",
+      "culturalArtifact": {
+        "name": "青花勾云团寿字纹瓷盘（清道光时期）",
+        "image": "/images/artifacts/4.png",
+        "description": "文物原型4"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/4.png"
+      },
+      "patternName": {
+        "name": "云头纹装饰的寿\n字线描图案"
+      },
+      "patternSemantics": {
+        "description": "云纹以独立的主体纹样开始，风格豪放，组合样式稳重简洁且丝毫不乏丰富纤细之感。云纹多变的风格，能在纹样的组合上带动整体的韵律，动态视觉感受强烈，具有美感。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/4.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/4.png"
+      }
+    },
+    {
+      "id": "pattern-005",
+      "culturalArtifact": {
+        "name": "彩绘双鹿漆器",
+        "image": "/images/artifacts/5.png",
+        "description": "文物原型5"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/5.png"
+      },
+      "patternName": {
+        "name": "三角云纹（1）\n三角云纹（2）"
+      },
+      "patternSemantics": {
+        "description": "整体图案呈塔状，配色分别为深棕底搭配土黄形和朱红底搭配土黄形，颜色排列有序。整幅锦面用色不多，但因色彩配置、单元间隔都十分恰当，整体效果较为鲜艳、华丽、多变。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/5.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/5.png"
+      }
+    },
+    {
+      "id": "pattern-006",
+      "culturalArtifact": {
+        "name": "塔形纹锦(马山1号楚墓出土)",
+        "image": "/images/artifacts/6.png",
+        "description": "文物原型6"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/6.png"
+      },
+      "patternName": {
+        "name": "塔形纹锦纹样"
+      },
+      "patternSemantics": {
+        "description": "整体图案呈塔状，配色分别为深棕底搭配土黄形和朱红底搭配土黄形，颜色排列有序。整幅锦面用色不多，但因色彩配置、单元间隔都十分恰当，整体效果较为鲜艳、华丽、多变"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/6.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/6.png"
+      }
+    },
+    {
+      "id": "pattern-007",
+      "culturalArtifact": {
+        "name": "凤鸟凫几何纹锦(马山1号楚墓出土)",
+        "image": "/images/artifacts/7.png",
+        "description": "文物原型7"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/7.png"
+      },
+      "patternName": {
+        "name": "凤鸟凫几何纹锦纹样"
+      },
+      "patternSemantics": {
+        "description": "该纹锦由重复六边形、立凤、对顶三角形、方形、5形、凫形等元素组成的连续纹样组成。其按从左至右的顺序循环排列，错落有致，装饰效果十分符合纺织品有规律的特征。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/7.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/7.png"
+      }
+    },
+    {
+      "id": "pattern-008",
+      "culturalArtifact": {
+        "name": "凤鸟花卉纹绣浅黄绢面绵袍(马山1号楚墓出土)",
+        "image": "/images/artifacts/8.png",
+        "description": "文物原型8"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/8.png"
+      },
+      "patternName": {
+        "name": "凤鸟菱形纹锦纹样（1）\n凤鸟菱形纹锦纹样（2）"
+      },
+      "patternSemantics": {
+        "description": "马山一号楚墓出土的凤鸟菱形纹锦纹样无完整花纹循环，是一种几何形纹。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/8.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/8.png"
+      }
+    },
+    {
+      "id": "pattern-009",
+      "culturalArtifact": {
+        "name": "凤鸟花卉纹绣浅黄绢面绵袍（马山1号楚墓出土）",
+        "image": "/images/artifacts/9.png",
+        "description": "文物原型9"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/9.png"
+      },
+      "patternName": {
+        "name": "凤鸟菱形纹锦纹样（3）"
+      },
+      "patternSemantics": {
+        "description": "马山一号楚墓出土的凤鸟菱形纹锦纹样无完整花纹循环，是一种几何形纹。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/9.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/9.png"
+      }
+    },
+    {
+      "id": "pattern-010",
+      "culturalArtifact": {
+        "name": "女五氏矩纹锦（战国褐地）",
+        "image": "/images/artifacts/10.png",
+        "description": "文物原型10"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/10.png"
+      },
+      "patternName": {
+        "name": "褐地矩纹纹锦纹样"
+      },
+      "patternSemantics": {
+        "description": "湖南长沙左家塘楚墓出土，无完整花纹循环。底纹是褐色，花纹是橘黄色，纬线为褐色。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/10.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/10.png"
+      }
+    },
+    {
+      "id": "pattern-011",
+      "culturalArtifact": {
+        "name": "对风对龙纹浅黄绢面锦袍（战国）",
+        "image": "/images/artifacts/11.png",
+        "description": "文物原型11"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/11.png"
+      },
+      "patternName": {
+        "name": "朱条暗地对凤对龙纹锦纹样（1）\n朱条暗地对凤对龙纹锦纹样（2）\n朱条暗地对凤对龙纹锦纹样（3）"
+      },
+      "patternSemantics": {
+        "description": "长沙左家塘楚墓出土，二色锦。花纹循环并不完整，左侧主纹样是两条背对着的弓形，中间以六瓣皮球花为辅助;中间条带是变形的凤鸟纹，有朱红、深棕、浅棕等色。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/11.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/11.png"
+      }
+    },
+    {
+      "id": "pattern-012",
+      "culturalArtifact": {
+        "name": "小菱形纹锦绵袍（战国）",
+        "image": "/images/artifacts/12.png",
+        "description": "文物原型12"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/12.png"
+      },
+      "patternName": {
+        "name": "小菱形纹锦纹样"
+      },
+      "patternSemantics": {
+        "description": "马山一号楚墓出土。该纹锦由单位小菱形错落排放组成，作四方连续排列，每个小菱形外有呈虚线与菱形交叉排列的单元形纹。在小菱形正中有花蕊状线，呈几何装饰美感。幅面有土黄、深棕两种颜色。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/12.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/12.png"
+      }
+    },
+    {
+      "id": "pattern-013",
+      "culturalArtifact": {
+        "name": "十字菱形纹锦（战国）",
+        "image": "/images/artifacts/13.png",
+        "description": "文物原型13"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/13.png"
+      },
+      "patternName": {
+        "name": "十字菱形纹锦纹样"
+      },
+      "patternSemantics": {
+        "description": "马山一号楚墓出土。菱形花纹的四边用小方块组成，四角各有一个大十字形纹，菱形中填四个十字形纹。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/13.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/13.png"
+      }
+    },
+    {
+      "id": "pattern-014",
+      "culturalArtifact": {
+        "name": "山字纹镜",
+        "image": "/images/artifacts/14.png",
+        "description": "文物原型14"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/14.png"
+      },
+      "patternName": {
+        "name": "山字纹"
+      },
+      "patternSemantics": {
+        "description": "山字纹镜是楚式镜中的主要种类，其总量占当时铜镜总数的80%以上，以湖南长沙出土数量最多。其中山形纹左旋右旋均有，山形的短竖道向内勾，呈尖角状"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/14.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/14.png"
+      }
+    },
+    {
+      "id": "pattern-015",
+      "culturalArtifact": {
+        "name": "对凤对龙纹绣",
+        "image": "/images/artifacts/15.png",
+        "description": "文物原型15"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/15.png"
+      },
+      "patternName": {
+        "name": "对凤对龙纹绣纹样"
+      },
+      "patternSemantics": {
+        "description": "纹样中有一对曲颈的凤鸟、一对展翅作舞的凤鸟、一对相背而立的凤鸟及一对龙，纹样元素虽多，但构图简练，线条流畅，造型优美而具有变化，是贯通古今的优秀作品。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/15.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/15.png"
+      }
+    },
+    {
+      "id": "pattern-016",
+      "culturalArtifact": {
+        "name": "战国•一凤二龙相蟠纹绣绢",
+        "image": "/images/artifacts/16.png",
+        "description": "文物原型16"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/16.png"
+      },
+      "patternName": {
+        "name": "一凤二龙相蟠纹绣纹样"
+      },
+      "patternSemantics": {
+        "description": "纹样主题置于菱形内部，相蟠纹凤鸟居中，两侧各有一龙，头部朝前，外侧凤翅舒展，菱形的四边辅以几何形连续纹样，四角分别饰有一个圆环。"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/16.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/16.png"
+      }
+    }
+  ]
+}

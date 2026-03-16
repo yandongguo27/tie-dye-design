@@ -1,0 +1,468 @@
+{
+  "patterns": [
+    {
+      "id": "pattern-001",
+      "culturalArtifact": {
+        "name": "彩陶花叶曲腹钵（新石器时代-仰韶文化）",
+        "image": "/images/artifacts/1.png",
+        "description": "文物原型1"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/1.png"
+      },
+      "patternName": {
+        "name": "旋花纹（1）\n旋花纹（2）\n旋花纹（3）"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述1"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/1.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/1.png"
+      }
+    },
+    {
+      "id": "pattern-002",
+      "culturalArtifact": {
+        "name": "召卣（西周）",
+        "image": "/images/artifacts/2.png",
+        "description": "文物原型2"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/2.png"
+      },
+      "patternName": {
+        "name": "云雷纹"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述2"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/2.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/2.png"
+      }
+    },
+    {
+      "id": "pattern-003",
+      "culturalArtifact": {
+        "name": "龙形卷云纹铜壶战国（襄阳陈坡10号楚墓出土）",
+        "image": "/images/artifacts/3.png",
+        "description": "文物原型3"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/3.png"
+      },
+      "patternName": {
+        "name": "纹样3"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述3"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/3.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/3.png"
+      }
+    },
+    {
+      "id": "pattern-004",
+      "culturalArtifact": {
+        "name": "青花勾云团寿字纹瓷盘（清道光时期）",
+        "image": "/images/artifacts/4.png",
+        "description": "文物原型4"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/4.png"
+      },
+      "patternName": {
+        "name": "纹样4"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述4"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/4.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/4.png"
+      }
+    },
+    {
+      "id": "pattern-005",
+      "culturalArtifact": {
+        "name": "彩绘双鹿漆器",
+        "image": "/images/artifacts/5.png",
+        "description": "文物原型5"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/5.png"
+      },
+      "patternName": {
+        "name": "纹样5"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述5"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/5.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/5.png"
+      }
+    },
+    {
+      "id": "pattern-006",
+      "culturalArtifact": {
+        "name": "塔形纹锦(马山1号楚墓出土)",
+        "image": "/images/artifacts/6.png",
+        "description": "文物原型6"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/6.png"
+      },
+      "patternName": {
+        "name": "纹样6"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述6"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/6.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/6.png"
+      }
+    },
+    {
+      "id": "pattern-007",
+      "culturalArtifact": {
+        "name": "凤鸟凫几何纹锦(马山1号楚墓出土)",
+        "image": "/images/artifacts/7.png",
+        "description": "文物原型7"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/7.png"
+      },
+      "patternName": {
+        "name": "纹样7"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述7"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/7.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/7.png"
+      }
+    },
+    {
+      "id": "pattern-008",
+      "culturalArtifact": {
+        "name": "凤鸟花卉纹绣浅黄绢面绵袍(马山1号楚墓出土)",
+        "image": "/images/artifacts/8.png",
+        "description": "文物原型8"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/8.png"
+      },
+      "patternName": {
+        "name": "纹样8"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述8"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/8.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/8.png"
+      }
+    },
+    {
+      "id": "pattern-009",
+      "culturalArtifact": {
+        "name": "凤鸟花卉纹绣浅黄绢面绵袍（马山1号楚墓出土）",
+        "image": "/images/artifacts/9.png",
+        "description": "文物原型9"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/9.png"
+      },
+      "patternName": {
+        "name": "纹样9"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述9"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/9.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/9.png"
+      }
+    },
+    {
+      "id": "pattern-010",
+      "culturalArtifact": {
+        "name": "女五氏矩纹锦（战国褐地）",
+        "image": "/images/artifacts/10.png",
+        "description": "文物原型10"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/10.png"
+      },
+      "patternName": {
+        "name": "纹样10"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述10"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/10.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/10.png"
+      }
+    },
+    {
+      "id": "pattern-011",
+      "culturalArtifact": {
+        "name": "对风对龙纹浅黄绢面锦袍（战国）",
+        "image": "/images/artifacts/11.png",
+        "description": "文物原型11"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/11.png"
+      },
+      "patternName": {
+        "name": "纹样11"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述11"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/11.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/11.png"
+      }
+    },
+    {
+      "id": "pattern-012",
+      "culturalArtifact": {
+        "name": "小菱形纹锦绵袍（战国）",
+        "image": "/images/artifacts/12.png",
+        "description": "文物原型12"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/12.png"
+      },
+      "patternName": {
+        "name": "纹样12"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述12"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/12.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/12.png"
+      }
+    },
+    {
+      "id": "pattern-013",
+      "culturalArtifact": {
+        "name": "十字菱形纹锦（战国）",
+        "image": "/images/artifacts/13.png",
+        "description": "文物原型13"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/13.png"
+      },
+      "patternName": {
+        "name": "纹样13"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述13"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/13.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/13.png"
+      }
+    },
+    {
+      "id": "pattern-014",
+      "culturalArtifact": {
+        "name": "山字纹镜",
+        "image": "/images/artifacts/14.png",
+        "description": "文物原型14"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/14.png"
+      },
+      "patternName": {
+        "name": "纹样14"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述14"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/14.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/14.png"
+      }
+    },
+    {
+      "id": "pattern-015",
+      "culturalArtifact": {
+        "name": "对凤对龙纹绣",
+        "image": "/images/artifacts/15.png",
+        "description": "文物原型15"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/15.png"
+      },
+      "patternName": {
+        "name": "纹样15"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述15"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/15.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/15.png"
+      }
+    },
+    {
+      "id": "pattern-016",
+      "culturalArtifact": {
+        "name": "战国•一凤二龙相蟠纹绣绢",
+        "image": "/images/artifacts/16.png",
+        "description": "文物原型16"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/16.png"
+      },
+      "patternName": {
+        "name": "纹样16"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述16"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/16.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/16.png"
+      }
+    }
+  ]
+}

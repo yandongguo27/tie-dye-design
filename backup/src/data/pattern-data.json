@@ -1,0 +1,423 @@
+{
+  "patterns": [
+    {
+      "id": "pattern-001",
+      "culturalArtifact": {
+        "name": "纹样1",
+        "image": "/images/artifacts/1.png",
+        "description": "文物原型1"
+      },
+      "vectorizedImage": {
+        "image": "/images/vectorized/1.png"
+      },
+      "patternName": {
+        "name": "纹样1"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述1"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/1.png"
+      },
+      "dyeingTechnique": {
+        "description": ""
+      },
+      "recomposition": {
+        "image": ""
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/1.png"
+      }
+    },
+    {
+      "id": "pattern-002",
+      "culturalArtifact": {
+        "name": "纹样2",
+        "image": "/images/artifacts/2.png",
+        "description": "文物原型2"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/2.png"
+      },
+      "patternName": {
+        "name": "纹样2"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述2"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/2.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/2.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/2.png"
+      }
+    },
+    {
+      "id": "pattern-003",
+      "culturalArtifact": {
+        "name": "纹样3",
+        "image": "/images/artifacts/3.png",
+        "description": "文物原型3"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/3.png"
+      },
+      "patternName": {
+        "name": "纹样3"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述3"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/3.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/3.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/3.png"
+      }
+    },
+    {
+      "id": "pattern-004",
+      "culturalArtifact": {
+        "name": "纹样4",
+        "image": "/images/artifacts/4.png",
+        "description": "文物原型4"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/4.png"
+      },
+      "patternName": {
+        "name": "纹样4"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述4"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/4.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/4.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/4.png"
+      }
+    },
+    {
+      "id": "pattern-005",
+      "culturalArtifact": {
+        "name": "纹样5",
+        "image": "/images/artifacts/5.png",
+        "description": "文物原型5"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/5.png"
+      },
+      "patternName": {
+        "name": "纹样5"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述5"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/5.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/5.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/5.png"
+      }
+    },
+    {
+      "id": "pattern-006",
+      "culturalArtifact": {
+        "name": "纹样6",
+        "image": "/images/artifacts/6.png",
+        "description": "文物原型6"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/6.png"
+      },
+      "patternName": {
+        "name": "纹样6"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述6"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/6.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/6.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/6.png"
+      }
+    },
+    {
+      "id": "pattern-007",
+      "culturalArtifact": {
+        "name": "纹样7",
+        "image": "/images/artifacts/7.png",
+        "description": "文物原型7"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/7.png"
+      },
+      "patternName": {
+        "name": "纹样7"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述7"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/7.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/7.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/7.png"
+      }
+    },
+    {
+      "id": "pattern-008",
+      "culturalArtifact": {
+        "name": "纹样8",
+        "image": "/images/artifacts/8.png",
+        "description": "文物原型8"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/8.png"
+      },
+      "patternName": {
+        "name": "纹样8"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述8"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/8.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/8.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/8.png"
+      }
+    },
+    {
+      "id": "pattern-009",
+      "culturalArtifact": {
+        "name": "纹样9",
+        "image": "/images/artifacts/9.png",
+        "description": "文物原型9"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/9.png"
+      },
+      "patternName": {
+        "name": "纹样9"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述9"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/9.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/9.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/9.png"
+      }
+    },
+    {
+      "id": "pattern-010",
+      "culturalArtifact": {
+        "name": "纹样10",
+        "image": "/images/artifacts/10.png",
+        "description": "文物原型10"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/10.png"
+      },
+      "patternName": {
+        "name": "纹样10"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述10"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/10.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/10.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/10.png"
+      }
+    },
+    {
+      "id": "pattern-011",
+      "culturalArtifact": {
+        "name": "纹样11",
+        "image": "/images/artifacts/11.png",
+        "description": "文物原型11"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/11.png"
+      },
+      "patternName": {
+        "name": "纹样11"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述11"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/11.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/11.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/11.png"
+      }
+    },
+    {
+      "id": "pattern-012",
+      "culturalArtifact": {
+        "name": "纹样12",
+        "image": "/images/artifacts/12.png",
+        "description": "文物原型12"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/12.png"
+      },
+      "patternName": {
+        "name": "纹样12"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述12"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/12.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/12.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/12.png"
+      }
+    },
+    {
+      "id": "pattern-013",
+      "culturalArtifact": {
+        "name": "纹样13",
+        "image": "/images/artifacts/13.png",
+        "description": "文物原型13"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/13.png"
+      },
+      "patternName": {
+        "name": "纹样13"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述13"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/13.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/13.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/13.png"
+      }
+    },
+    {
+      "id": "pattern-014",
+      "culturalArtifact": {
+        "name": "纹样14",
+        "image": "/images/artifacts/14.png",
+        "description": "文物原型14"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/14.png"
+      },
+      "patternName": {
+        "name": "纹样14"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述14"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/14.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/14.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/14.png"
+      }
+    },
+    {
+      "id": "pattern-015",
+      "culturalArtifact": {
+        "name": "纹样15",
+        "image": "/images/artifacts/15.png",
+        "description": "文物原型15"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/15.png"
+      },
+      "patternName": {
+        "name": "纹样15"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述15"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/15.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/15.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/15.png"
+      }
+    },
+    {
+      "id": "pattern-016",
+      "culturalArtifact": {
+        "name": "纹样16",
+        "image": "/images/artifacts/16.png",
+        "description": "文物原型16"
+      },
+      "extractedImage": {
+        "image": "/images/vectorized/16.png"
+      },
+      "patternName": {
+        "name": "纹样16"
+      },
+      "patternSemantics": {
+        "description": "纹样语义描述16"
+      },
+      "elementExtraction": {
+        "image": "/images/elements/16.png"
+      },
+      "vectorPattern": {
+        "image": "/images/vectorized/16.png"
+      },
+      "innovativePattern": {
+        "image": "/images/innovative/16.png"
+      }
+    }
+  ]
+}

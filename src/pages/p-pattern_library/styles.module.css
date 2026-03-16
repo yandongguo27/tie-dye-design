@@ -1,0 +1,136 @@
+.pageWrapper {
+  background: linear-gradient(135deg, #1b396a 0%, #304db0e6 50%, #5773cf61 100%);
+  min-height: 100vh;
+  background-attachment: fixed;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: white;
+}
+
+.navLink {
+  position: relative;
+  transition: all 0.3s ease, transform 0.3s ease;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  transition: width 0.3s ease;
+}
+
+.navLink:hover::after,
+.navLink.active::after {
+  width: 100%;
+  transform: scale(1.05);
+}
+
+/* 纹样单元格样式 */
+.patternCell {
+  background: radial-gradient(circle at top, rgba(22, 109, 202, 0.55), rgba(255, 255, 255, 0.9));
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.patternCell:hover {
+  background-color: #f0f0f0;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.08), 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.patternCell:active {
+  background-color: #d0d0d0;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+/* 表头单元格样式 */
+.headerCell {
+  background: radial-gradient(circle at top, rgba(22, 109, 202, 0.55), rgba(255, 255, 255, 0.9));
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 图片单元格 */
+.imageCell {
+  /* 继承patternCell的固定高度 */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 文本单元格 */
+.textCell {
+  padding: 12px;
+  /* 继承patternCell的固定高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 语义描述单元格 - 特殊样式 */
+.semanticsCell {
+  /* 继承patternCell的固定高度 */
+  padding: 16px;
+  text-align: left;
+  align-items: flex-start;
+  justify-content: flex-start;
+  line-height: 1.5;
+  overflow-y: auto; /* 如果文字太多，允许滚动 */
+}
+
+/* 选中状态 */
+.patternRow.selected .patternCell {
+  border-color: #455BE6;
+  box-shadow: 0 0 20px rgba(69, 91, 230, 0.5);
+  background: radial-gradient(circle at center, rgba(69, 91, 230, 0.55), rgba(199, 200, 206, 0.3));
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .patternCell {
+    border-radius: 12px;
+    height: 120px;
+  }
+  
+  .semanticsCell {
+    padding: 12px;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 0 1rem;
+  }
+  
+  .patternCell {
+    height: 100px;
+  }
+  
+  .semanticsCell {
+    padding: 8px;
+    font-size: 0.75rem;
+  }
+}
