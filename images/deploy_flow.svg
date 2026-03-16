@@ -1,0 +1,34 @@
+<svg width="820" height="220" viewBox="0 0 820 220" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .step { fill:#ffffff; stroke:#0f172a; stroke-opacity:0.12; stroke-width:1; rx:8 }
+    .label { font:13px 'Segoe UI', sans-serif; fill:#0b1220 }
+    .arrow { stroke:#0b1220; stroke-width:2; marker-end:url(#m); }
+  </style>
+  <defs>
+    <marker id="m" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0b1220" />
+    </marker>
+  </defs>
+
+  <rect x="20" y="40" width="180" height="80" class="step"/>
+  <text x="36" y="70" class="label">开发机</text>
+  <text x="36" y="92" class="label">npm install → npm run dev</text>
+
+  <rect x="240" y="40" width="180" height="80" class="step"/>
+  <text x="256" y="70" class="label">构建</text>
+  <text x="256" y="92" class="label">npm run build → dist/</text>
+
+  <rect x="460" y="40" width="180" height="80" class="step"/>
+  <text x="476" y="70" class="label">验证</text>
+  <text x="476" y="92" class="label">本地 preview / 测试路由</text>
+
+  <rect x="680" y="40" width="120" height="80" class="step"/>
+  <text x="692" y="70" class="label">部署</text>
+  <text x="692" y="92" class="label">Netlify（手动或自动）</text>
+
+  <path d="M200 80 L240 80" class="arrow" />
+  <path d="M420 80 L460 80" class="arrow" />
+  <path d="M640 80 L680 80" class="arrow" />
+
+  <text x="20" y="160" class="label">注意：确保 `dist/index.html` 在包根、并在 `dist/_redirects` 写入 `/* /index.html 200`。</text>
+</svg>
