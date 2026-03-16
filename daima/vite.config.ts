@@ -26,9 +26,8 @@ const errorLoggerPlugin = () => ({
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [react(), mode === 'development' ? errorLoggerPlugin() : null,],
-  // GitHub Pages 配置 - 如果部署到GitHub Pages，需要设置base路径
-  // base: process.env.NODE_ENV === 'production' ? '/your-repo-name/' : '/',
-  base: '/', // 先设置为根路径，部署时根据实际情况修改
+  // GitHub Pages 配置 - 设置正确的base路径
+  base: '/tie-dye-design/',
   server: {
     port: 5173,
     strictPort: true,
