@@ -1,0 +1,101 @@
+/* 全局颜色样式配置 */
+:root {
+  /* 主要渐变颜色 */
+  --primary-color-1: #455BE6;
+  --primary-color-2: #C7C8CE;
+  
+  /* 渐变定义 - 从上到下 */
+  --primary-gradient: linear-gradient(to bottom, var(--primary-color-1), var(--primary-color-2));
+  
+  /* 透明度变体 - 从上到下的渐变 */
+  --gradient-20: linear-gradient(to bottom, rgba(69, 91, 230, 0.2), rgba(199, 200, 206, 0.2));
+  --gradient-45: linear-gradient(to bottom, rgba(69, 91, 230, 0.45), rgba(199, 200, 206, 0.45));
+  --gradient-55: linear-gradient(to bottom, rgba(69, 91, 230, 0.55), rgba(199, 200, 206, 0.55));
+  
+  /* 导航栏专用渐变 - 从蓝到白 */
+  --nav-gradient: linear-gradient(to bottom, rgba(69, 91, 230, 0.45), rgba(255, 255, 255, 0.1));
+  
+  /* 圆角半径 */
+  --border-radius: 18px;
+}
+
+/* 全局按钮样式 */
+.customButton {
+  background: var(--gradient-20);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.customButton:hover,
+.customButton:focus,
+.customButton.active {
+  background: var(--gradient-55);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(69, 91, 230, 0.3);
+}
+
+/* 导航栏样式 */
+.customNav {
+  background: var(--nav-gradient);
+  backdrop-filter: blur(15px);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 卡片样式 */
+.customCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* 上传区域样式 */
+.customUploadArea {
+  background: var(--gradient-20);
+  border-radius: var(--border-radius);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.customUploadArea:hover {
+  background: var(--gradient-45);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 滑块样式 */
+.customSlider {
+  background: var(--gradient-20);
+  border-radius: var(--border-radius);
+  height: 8px;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.customSlider:hover {
+  opacity: 1;
+}
+
+.customSlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(69, 91, 230, 0.3);
+}
+
+.customSlider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 8px rgba(69, 91, 230, 0.3);
+}

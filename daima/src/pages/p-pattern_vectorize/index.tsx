@@ -419,7 +419,10 @@ const PatternVectorizePage: React.FC = () => {
                 元素组合
               </Link>
               <Link to="/application" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>
-                服饰/首饰应用
+                文创应用
+              </Link>
+              <Link to="/pattern-library" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>
+                纹样库
               </Link>
               <Link to="/history" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>
                 历史记录

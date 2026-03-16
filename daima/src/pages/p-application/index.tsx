@@ -12,7 +12,6 @@ interface PatternOption {
 
 const ApplicationPage: React.FC = () => {
   // 状态管理
-  const [selectedProductFile, setSelectedProductFile] = useState<File | null>(null);
   const [showProductPreview, setShowProductPreview] = useState(false);
   const [productImageSrc, setProductImageSrc] = useState('');
   const [showPatternSelectorModal, setShowPatternSelectorModal] = useState(false);
@@ -46,7 +45,7 @@ const ApplicationPage: React.FC = () => {
   // 设置页面标题
   useEffect(() => {
     const originalTitle = document.title;
-    document.title = '产品应用 - 染纹创合';
+    document.title = '文创应用 - 染纹创合';
     return () => { document.title = originalTitle; };
   }, []);
 
@@ -86,7 +85,6 @@ const ApplicationPage: React.FC = () => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setSelectedProductFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         if (e.target?.result) {
@@ -100,7 +98,6 @@ const ApplicationPage: React.FC = () => {
 
   // 移除产品图片
   const handleRemoveProduct = () => {
-    setSelectedProductFile(null);
     setProductImageSrc('');
     setShowProductPreview(false);
     if (productImageRef.current) {
@@ -354,7 +351,8 @@ const ApplicationPage: React.FC = () => {
               <Link to="/home" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>首页</Link>
               <Link to="/pattern-design" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>纹样设计</Link>
               <Link to="/element-combine" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>元素组合</Link>
-              <Link to="/application" className={`${styles.navLink} ${styles.active} text-white py-2`}>服饰/首饰应用</Link>
+              <Link to="/application" className={`${styles.navLink} ${styles.active} text-white py-2`}>文创应用</Link>
+              <Link to="/pattern-library" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>纹样库</Link>
               <Link to="/history" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>历史记录</Link>
               <Link to="/help" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>帮助指南</Link>
             </div>
@@ -377,9 +375,9 @@ const ApplicationPage: React.FC = () => {
             <div className="flex items-center space-x-2 text-sm text-white/60 mb-2">
               <Link to="/home" className="hover:text-white">首页</Link>
               <i className="fas fa-chevron-right text-xs"></i>
-              <span className="text-white">产品应用</span>
+              <span className="text-white">文创应用</span>
             </div>
-            <h1 className="text-3xl font-bold text-white">产品应用</h1>
+            <h1 className="text-3xl font-bold text-white">文创应用</h1>
             <p className="text-white/70 mt-2">将您设计的精美纹样应用到服饰、首饰或文创产品上</p>
           </header>
 

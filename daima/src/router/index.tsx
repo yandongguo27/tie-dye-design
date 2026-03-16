@@ -6,6 +6,7 @@ import P_home from '../pages/p-home';
 import P_pattern_vectorize from '../pages/p-pattern_vectorize';
 import P_pattern_design from '../pages/p-pattern_design';
 import P_application from '../pages/p-application';
+import P_pattern_library from '../pages/p-pattern_library';
 import P_history from '../pages/p-history';
 import P_help from '../pages/p-help';
 import P_element_combine from '../pages/p-element_combine';
@@ -73,6 +74,15 @@ const router = createBrowserRouter([
     element: (
       <ErrorBoundary>
         <P_application />
+      </ErrorBoundary>
+    ),
+    errorElement: <ErrorPage />,
+  },
+      {
+    path: '/pattern-library',
+    element: (
+      <ErrorBoundary>
+        <P_pattern_library />
       </ErrorBoundary>
     ),
     errorElement: <ErrorPage />,

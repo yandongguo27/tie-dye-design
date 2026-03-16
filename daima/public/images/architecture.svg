@@ -1,0 +1,48 @@
+<svg width="920" height="380" viewBox="0 0 920 380" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .layer { fill:#eef2ff; stroke:#2563eb; stroke-width:1.6; rx:10 }
+    .card { fill:#ffffff; stroke:#cbd5e1; stroke-width:1.2; rx:8 }
+    .title { font: 700 14px 'Segoe UI', sans-serif; fill:#0b1220 }
+    .text { font: 13px 'Segoe UI', sans-serif; fill:#0b1220 }
+    .arrow { stroke:#475569; stroke-width:2; marker-end:url(#arr); }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#475569" />
+    </marker>
+  </defs>
+
+  <!-- Layers -->
+  <rect x="18" y="18" width="260" height="344" class="layer"/>
+  <text x="30" y="40" class="title">1. 用户界面（Pages）</text>
+  <text x="30" y="62" class="text">- 元素组合: 上传、参数、预览</text>
+  <text x="30" y="80" class="text">(src/pages/p-element_combine/index.tsx)</text>
+  <rect x="36" y="96" width="220" height="40" class="card"/>
+  <text x="44" y="122" class="text">上传 | 预览 | 控件</text>
+
+  <rect x="300" y="18" width="300" height="180" class="layer"/>
+  <text x="312" y="40" class="title">2. 组件与渲染层</text>
+  <text x="312" y="62" class="text">- 公共组件：Nav、Controls</text>
+  <text x="312" y="80" class="text">- 生成引擎（Canvas 2D）</text>
+  <rect x="322" y="96" width="260" height="46" class="card"/>
+  <text x="330" y="122" class="text">arrangeElements() / drawImage / blend</text>
+
+  <rect x="620" y="18" width="280" height="344" class="layer"/>
+  <text x="632" y="40" class="title">3. 构建与部署</text>
+  <text x="632" y="62" class="text">- 静态资源: public/, assets</text>
+  <text x="632" y="82" class="text">- 构建输出: dist/ (index.html, assets, _redirects)</text>
+  <rect x="640" y="96" width="240" height="56" class="card"/>
+  <text x="648" y="122" class="text">Vite build → dist</text>
+  <text x="648" y="140" class="text">Netlify / 静态托管</text>
+
+  <!-- arrows between layers -->
+  <path d="M286 120 L300 120" class="arrow" />
+  <path d="M600 120 L620 120" class="arrow" />
+  <path d="M420 210 L420 240" class="arrow" />
+
+  <!-- legend -->
+  <rect x="30" y="260" width="200" height="90" rx="8" fill="#fff" stroke="#e2e8f0"/>
+  <text x="40" y="282" class="title">说明</text>
+  <text x="40" y="302" class="text">- 蓝色层：功能分层</text>
+  <text x="40" y="320" class="text">- 白色卡片：关键模块/函数</text>
+</svg>

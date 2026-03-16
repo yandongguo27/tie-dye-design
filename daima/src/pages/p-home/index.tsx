@@ -76,7 +76,8 @@ export default function HomePage() {
               <Link to="/pattern-vectorize" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>素材处理</Link>
               <Link to="/pattern-design" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>纹样设计</Link>
               <Link to="/element-combine" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>元素组合</Link>
-              <Link to="/application" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>服饰/首饰应用</Link>
+              <Link to="/application" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>文创应用</Link>
+              <Link to="/pattern-library" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>纹样库</Link>
               <Link to="/history" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>历史记录</Link>
               <Link to="/help" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>帮助指南</Link>
             </div>

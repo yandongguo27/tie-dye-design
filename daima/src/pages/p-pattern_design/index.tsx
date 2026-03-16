@@ -61,18 +61,6 @@ const PatternDesignPage: React.FC = () => {
   const fileInputRef1 = useRef<HTMLInputElement>(null);
   const fileInputRef2 = useRef<HTMLInputElement>(null);
   
-  // 线稿生成状态
-  const [vectorizeImage, setVectorizeImage] = useState<string | null>(null);
-  const [vectorizedResult, setVectorizedResult] = useState<string | null>(null);
-  const [isVectorizing, setIsVectorizing] = useState<boolean>(false);
-  const vectorizeInputRef = useRef<HTMLInputElement>(null);
-  const [vectorizeOptions, setVectorizeOptions] = useState({
-    edgeThreshold: 50,
-    blurRadius: 1,
-    contrastLevel: 50,
-    simplificationLevel: 50
-  });
-  
   // AI模型选择状态
   const [selectedModel, setSelectedModel] = useState<string>('innovative');
   
@@ -228,11 +216,11 @@ const PatternDesignPage: React.FC = () => {
   const createPatternVariant = async (
     colors: ColorInfo[],
     shapes: ShapeInfo,
-    dyeConcentration: number,
-    patternDensity: number,
-    fusionStrength: number,
-    colorSaturation: number,
-    patternSize: number,
+    _dyeConcentration: number,
+    _patternDensity: number,
+    _fusionStrength: number,
+    _colorSaturation: number,
+    _patternSize: number,
     index: number
   ): Promise<PatternCard> => {
     // 这里可以添加更复杂的变体生成逻辑
@@ -329,7 +317,7 @@ const PatternDesignPage: React.FC = () => {
           ctx.fillStyle = mirrorGradient;
           ctx.beginPath();
           ctx.arc(mirrorX, y, radius, 0, Math.PI * 2);
-        ctx.fill();
+          ctx.fill();
         }
       }
       
@@ -664,299 +652,6 @@ const PatternDesignPage: React.FC = () => {
     return symmetryScore / (height * centerX);
   };
 
-  // ============ 线稿生成功能 ============
-  
-  // 处理线稿图片上传
-  const handleVectorizeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const imageDataUrl = event.target?.result as string;
-        setVectorizeImage(imageDataUrl);
-        setVectorizedResult(null);
-        
-        // 自动生成线稿
-        await generateVectorImage(imageDataUrl);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  // 生成线稿
-  const generateVectorImage = async (imageDataUrl: string) => {
-    setIsVectorizing(true);
-    
-    try {
-      const image = new Image();
-      image.src = imageDataUrl;
-      await new Promise((resolve) => { image.onload = resolve; });
-
-      // 边缘检测
-      const edgesImage = await detectEdgesForVectorize(image);
-      
-      // 黑白简化
-      const simplifiedImage = await simplifyToBlackWhite(image, edgesImage);
-      
-      // 矢量优化
-      const vectorImage = await applyVectorization(simplifiedImage);
-      
-      setVectorizedResult(vectorImage);
-    } catch (error) {
-      console.error('生成线稿失败:', error);
-      alert('生成线稿失败，请重试');
-    } finally {
-      setIsVectorizing(false);
-    }
-  };
-
-  // 边缘检测（用于线稿生成）
-  const detectEdgesForVectorize = async (image: HTMLImageElement): Promise<string> => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
-    canvas.width = image.width;
-    canvas.height = image.height;
-
-    ctx.drawImage(image, 0, 0);
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    // 转换为灰度
-    const grayData = new Uint8Array(canvas.width * canvas.height);
-    for (let i = 0; i < data.length; i += 4) {
-      const gray = Math.floor(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
-      grayData[i / 4] = gray;
-    }
-
-    // 高斯模糊
-    const blurred = gaussianBlurForVectorize(grayData, canvas.width, canvas.height, vectorizeOptions.blurRadius);
-
-    // Sobel边缘检测
-    const edges = sobelEdgeDetection(blurred, canvas.width, canvas.height);
-
-    // 应用阈值
-    const threshold = (vectorizeOptions.edgeThreshold / 100) * 255;
-    for (let i = 0; i < edges.length; i++) {
-      edges[i] = edges[i] > threshold ? 255 : 0;
-    }
-
-    // 将边缘数据写回canvas
-    for (let i = 0; i < edges.length; i++) {
-      const val = edges[i];
-      data[i * 4] = val;
-      data[i * 4 + 1] = val;
-      data[i * 4 + 2] = val;
-      data[i * 4 + 3] = 255;
-    }
-
-    ctx.putImageData(imageData, 0, 0);
-    return canvas.toDataURL('image/png');
-  };
-
-  // 高斯模糊（用于线稿生成）
-  const gaussianBlurForVectorize = (data: Uint8Array, width: number, height: number, radius: number): Uint8Array => {
-    if (radius < 1) return data;
-
-    const result = new Uint8Array(data.length);
-    const kernel = createGaussianKernel(radius);
-    const kernelSize = kernel.length;
-    const half = Math.floor(kernelSize / 2);
-
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        let sum = 0;
-        let weightSum = 0;
-
-        for (let ky = -half; ky <= half; ky++) {
-          for (let kx = -half; kx <= half; kx++) {
-            const px = Math.min(Math.max(x + kx, 0), width - 1);
-            const py = Math.min(Math.max(y + ky, 0), height - 1);
-            const weight = kernel[ky + half] * kernel[kx + half];
-            sum += data[py * width + px] * weight;
-            weightSum += weight;
-          }
-        }
-
-        result[y * width + x] = Math.round(sum / weightSum);
-      }
-    }
-
-    return result;
-  };
-
-  // 创建高斯核
-  const createGaussianKernel = (radius: number): number[] => {
-    const size = radius * 2 + 1;
-    const kernel = new Array(size);
-    const sigma = radius / 3;
-    const twoSigmaSquare = 2 * sigma * sigma;
-    let sum = 0;
-
-    for (let i = 0; i < size; i++) {
-      const x = i - radius;
-      kernel[i] = Math.exp(-(x * x) / twoSigmaSquare);
-      sum += kernel[i];
-    }
-
-    for (let i = 0; i < size; i++) {
-      kernel[i] /= sum;
-    }
-
-    return kernel;
-  };
-
-  // 黑白简化
-  const simplifyToBlackWhite = async (originalImage: HTMLImageElement, edgesDataUrl: string): Promise<string> => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
-    canvas.width = originalImage.width;
-    canvas.height = originalImage.height;
-
-    const edgeImage = new Image();
-    edgeImage.src = edgesDataUrl;
-    await new Promise((resolve) => { edgeImage.onload = resolve; });
-
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.drawImage(originalImage, 0, 0);
-    const originalData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-    ctx.drawImage(edgeImage, 0, 0);
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-    const originalPixels = originalData.data;
-
-    const contrastFactor = (vectorizeOptions.contrastLevel / 50);
-    const simplifyLevel = vectorizeOptions.simplificationLevel / 100;
-
-    for (let i = 0; i < data.length; i += 4) {
-      if (data[i] < 128) {
-        const brightness = (originalPixels[i] + originalPixels[i + 1] + originalPixels[i + 2]) / 3;
-        
-        if (Math.random() > simplifyLevel * 0.3) {
-          const darkness = Math.max(0, 255 - brightness * contrastFactor);
-          data[i] = darkness;
-          data[i + 1] = darkness;
-          data[i + 2] = darkness;
-        } else {
-          data[i] = 255;
-          data[i + 1] = 255;
-          data[i + 2] = 255;
-        }
-      } else {
-        data[i] = 255;
-        data[i + 1] = 255;
-        data[i + 2] = 255;
-      }
-      data[i + 3] = 255;
-    }
-
-    ctx.putImageData(imageData, 0, 0);
-    return canvas.toDataURL('image/png');
-  };
-
-  // 矢量化处理
-  const applyVectorization = async (simplifiedDataUrl: string): Promise<string> => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d')!;
-    
-    const simplifiedImage = new Image();
-    simplifiedImage.src = simplifiedDataUrl;
-    await new Promise((resolve) => { simplifiedImage.onload = resolve; });
-
-    canvas.width = simplifiedImage.width;
-    canvas.height = simplifiedImage.height;
-
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.drawImage(simplifiedImage, 0, 0);
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    const thinned = thinEdges(data, canvas.width, canvas.height);
-
-    ctx.putImageData(thinned, 0, 0);
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = canvas.width;
-    tempCanvas.height = canvas.height;
-    const tempCtx = tempCanvas.getContext('2d')!;
-    tempCtx.fillStyle = 'white';
-    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-    tempCtx.drawImage(canvas, 0, 0);
-
-    return tempCanvas.toDataURL('image/png');
-  };
-
-  // 细化边缘
-  const thinEdges = (data: Uint8ClampedArray, width: number, height: number): ImageData => {
-    const result = new ImageData(width, height);
-    const resultData = result.data;
-
-    for (let y = 1; y < height - 1; y++) {
-      for (let x = 1; x < width - 1; x++) {
-        const idx = (y * width + x) * 4;
-        
-        if (data[idx] < 128) {
-          let neighbors = 0;
-          for (let dy = -1; dy <= 1; dy++) {
-            for (let dx = -1; dx <= 1; dx++) {
-              if (dx === 0 && dy === 0) continue;
-              const nIdx = ((y + dy) * width + (x + dx)) * 4;
-              if (data[nIdx] < 128) neighbors++;
-            }
-          }
-
-          if (neighbors >= 2 && neighbors <= 6) {
-            resultData[idx] = 0;
-            resultData[idx + 1] = 0;
-            resultData[idx + 2] = 0;
-            resultData[idx + 3] = 255;
-          } else {
-            resultData[idx] = 255;
-            resultData[idx + 1] = 255;
-            resultData[idx + 2] = 255;
-            resultData[idx + 3] = 255;
-          }
-        } else {
-          resultData[idx] = 255;
-          resultData[idx + 1] = 255;
-          resultData[idx + 2] = 255;
-          resultData[idx + 3] = 255;
-        }
-      }
-    }
-
-    return result;
-  };
-
-  // 下载线稿
-  const handleDownloadVectorized = () => {
-    if (vectorizedResult) {
-      const link = document.createElement('a');
-      link.href = vectorizedResult;
-      link.download = '线稿图.png';
-      link.click();
-    }
-  };
-
-  // 使用线稿作为参考纹样
-  const handleUseAsReference = () => {
-    if (vectorizedResult && !uploadedFile1) {
-      // 将线稿设置为参考纹样1
-      fetch(vectorizedResult)
-        .then(res => res.blob())
-        .then(blob => {
-          const file = new File([blob], '线稿图.png', { type: 'image/png' });
-          handleFileUpload(file, 'first');
-        });
-    }
-  };
-
   // 处理文件上传
   const handleFileUpload = async (file: File, uploadSlot: 'first' | 'second') => {
     const reader = new FileReader();
@@ -1146,7 +841,7 @@ const PatternDesignPage: React.FC = () => {
   };
   
   // 处理图片拖拽
-  const handleImageDrag = (e: React.MouseEvent<HTMLImageElement>, uploadSlot: 'first' | 'second') => {
+  const handleImageDrag = (_e: React.MouseEvent<HTMLImageElement>, _uploadSlot: 'first' | 'second') => {
     // 双击进入拖拽模式的逻辑可以在这里实现
     // 为简化，暂时保留基础功能
   };
@@ -1180,7 +875,10 @@ const PatternDesignPage: React.FC = () => {
                 元素组合
               </Link>
               <Link to="/application" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>
-                服饰/首饰应用
+                文创应用
+              </Link>
+              <Link to="/pattern-library" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>
+                纹样库
               </Link>
               <Link to="/history" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>
                 历史记录
@@ -1213,213 +911,6 @@ const PatternDesignPage: React.FC = () => {
             <h1 className="text-3xl font-bold text-white">纹样设计</h1>
             <p className="text-white/70 mt-2">通过AI技术辅助您进行扎染纹样的创新设计</p>
           </header>
-
-          {/* 线稿生成区 */}
-          <section className={`${styles.glassCard} rounded-2xl p-6 mb-8`}>
-            <h2 className="text-xl font-semibold text-white mb-6 flex items-center">
-              <i className="fas fa-pencil-ruler mr-3 text-white/80"></i>
-              线稿生成工具
-              {isVectorizing && <span className="ml-3 text-sm text-yellow-300 animate-pulse">正在生成中...</span>}
-            </h2>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* 上传图片 */}
-              <div className={`${styles.glassCard} rounded-xl p-5`}>
-                <h3 className="text-lg font-medium text-white mb-4">1. 上传图片</h3>
-                {!vectorizeImage ? (
-                  <div 
-                    className={`${styles.uploadArea} rounded-xl p-8 text-center cursor-pointer`}
-                    onClick={() => vectorizeInputRef.current?.click()}
-                  >
-                    <i className="fas fa-image text-5xl text-white/60 mb-4"></i>
-                    <p className="text-white/90 font-medium mb-2">点击上传图片</p>
-                    <p className="text-sm text-white/60">支持 JPG、PNG、GIF 等格式</p>
-                    <input
-                      type="file"
-                      ref={vectorizeInputRef}
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleVectorizeUpload}
-                    />
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="aspect-video rounded-lg overflow-hidden bg-white/5">
-                      <img src={vectorizeImage} alt="原图" className="w-full h-full object-contain" />
-                    </div>
-                    <button
-                      onClick={() => {
-                        setVectorizeImage(null);
-                        setVectorizedResult(null);
-                        if (vectorizeInputRef.current) vectorizeInputRef.current.value = '';
-                      }}
-                      className="w-full py-2 px-4 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition-colors"
-                    >
-                      <i className="fas fa-redo mr-2"></i>
-                      重新上传
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {/* 生成的线稿 */}
-              <div className={`${styles.glassCard} rounded-xl p-5`}>
-                <h3 className="text-lg font-medium text-white mb-4 flex items-center justify-between">
-                  <span>2. 生成线稿</span>
-                  {vectorizedResult && (
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={handleDownloadVectorized}
-                        className="text-xs px-3 py-1 rounded bg-white/10 hover:bg-white/20 transition-colors"
-                      >
-                        <i className="fas fa-download mr-1"></i>
-                        下载
-                      </button>
-                      <button
-                        onClick={handleUseAsReference}
-                        className="text-xs px-3 py-1 rounded bg-blue-500/80 hover:bg-blue-500 transition-colors"
-                      >
-                        <i className="fas fa-arrow-down mr-1"></i>
-                        用作参考
-                      </button>
-                    </div>
-                  )}
-                </h3>
-                <div className="aspect-video rounded-lg overflow-hidden bg-white">
-                  {vectorizedResult ? (
-                    <img src={vectorizedResult} alt="线稿" className="w-full h-full object-contain" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      {isVectorizing ? (
-                        <div className="text-center">
-                          <i className="fas fa-spinner fa-spin text-4xl text-blue-500 mb-3"></i>
-                          <p className="text-gray-600">正在生成线稿...</p>
-                        </div>
-                      ) : (
-                        <div className="text-center">
-                          <i className="fas fa-pencil-alt text-4xl text-gray-300 mb-3"></i>
-                          <p className="text-gray-500">上传图片后自动生成</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* 参数调整（折叠式） */}
-            {vectorizeImage && (
-              <div className="mt-6 pt-6 border-t border-white/10">
-                <details className="group">
-                  <summary className="cursor-pointer text-white/90 font-medium mb-4 flex items-center justify-between hover:text-white transition-colors">
-                    <span>
-                      <i className="fas fa-sliders-h mr-2"></i>
-                      调整参数（可选）
-                    </span>
-                    <i className="fas fa-chevron-down group-open:rotate-180 transition-transform"></i>
-                  </summary>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm text-white/80">边缘检测灵敏度</label>
-                        <span className="text-xs text-white/60">{vectorizeOptions.edgeThreshold}%</span>
-                      </div>
-                      <input
-                        type="range"
-                        className={`w-full h-2 ${styles.sliderTrack} appearance-none cursor-pointer`}
-                        min="0"
-                        max="100"
-                        value={vectorizeOptions.edgeThreshold}
-                        onChange={(e) => setVectorizeOptions({...vectorizeOptions, edgeThreshold: parseInt(e.target.value)})}
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm text-white/80">边缘平滑度</label>
-                        <span className="text-xs text-white/60">{vectorizeOptions.blurRadius}</span>
-                      </div>
-                      <input
-                        type="range"
-                        className={`w-full h-2 ${styles.sliderTrack} appearance-none cursor-pointer`}
-                        min="0"
-                        max="5"
-                        value={vectorizeOptions.blurRadius}
-                        onChange={(e) => setVectorizeOptions({...vectorizeOptions, blurRadius: parseInt(e.target.value)})}
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm text-white/80">线条深度</label>
-                        <span className="text-xs text-white/60">{vectorizeOptions.contrastLevel}%</span>
-                      </div>
-                      <input
-                        type="range"
-                        className={`w-full h-2 ${styles.sliderTrack} appearance-none cursor-pointer`}
-                        min="0"
-                        max="100"
-                        value={vectorizeOptions.contrastLevel}
-                        onChange={(e) => setVectorizeOptions({...vectorizeOptions, contrastLevel: parseInt(e.target.value)})}
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <label className="text-sm text-white/80">简化程度</label>
-                        <span className="text-xs text-white/60">{vectorizeOptions.simplificationLevel}%</span>
-                      </div>
-                      <input
-                        type="range"
-                        className={`w-full h-2 ${styles.sliderTrack} appearance-none cursor-pointer`}
-                        min="0"
-                        max="100"
-                        value={vectorizeOptions.simplificationLevel}
-                        onChange={(e) => setVectorizeOptions({...vectorizeOptions, simplificationLevel: parseInt(e.target.value)})}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mt-4 text-center">
-                    <button
-                      onClick={() => generateVectorImage(vectorizeImage)}
-                      disabled={isVectorizing}
-                      className={`${styles.glassButton} px-6 py-2 rounded-lg text-white text-sm font-medium`}
-                    >
-                      {isVectorizing ? (
-                        <>
-                          <i className="fas fa-spinner fa-spin mr-2"></i>
-                          处理中...
-                        </>
-                      ) : (
-                        <>
-                          <i className="fas fa-sync-alt mr-2"></i>
-                          重新生成
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </details>
-              </div>
-            )}
-
-            {/* 使用说明 */}
-            <div className="mt-6 p-4 rounded-xl bg-white/5 border border-white/10">
-              <div className="flex items-start space-x-3">
-                <i className="fas fa-info-circle text-blue-400 text-lg mt-0.5"></i>
-                <div className="flex-1 text-sm text-white/70">
-                  <p className="mb-1"><strong className="text-white/90">使用说明：</strong></p>
-                  <ol className="space-y-1 ml-4 list-decimal">
-                    <li>上传彩色图片（扎染图案、照片等）</li>
-                    <li>系统自动生成黑白线稿</li>
-                    <li>可调整参数重新生成</li>
-                    <li>点击"用作参考"将线稿添加到下方参考纹样区</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* 参考纹样上传区 */}
           <section className={`${styles.glassCard} rounded-2xl p-6 mb-8`}>
@@ -1582,7 +1073,7 @@ const PatternDesignPage: React.FC = () => {
                 )}
               </div>
             </div>
-          </section>
+            </section>
 
           {/* 特征提取结果展示区 */}
           {(uploadedFile1?.features || uploadedFile2?.features) && (
@@ -2172,6 +1663,21 @@ const PatternDesignPage: React.FC = () => {
                   <p className="text-white/60">暂无生成纹样</p>
                 </div>
               )}
+            </div>
+          </section>
+
+          {/* 进入元素组合按钮 */}
+          <section className={`${styles.glassCard} rounded-2xl p-6 mt-8`}>
+            <div className="text-center">
+              <h2 className="text-xl font-semibold text-white mb-4">纹样设计完成</h2>
+              <p className="text-white/70 mb-6">您的纹样设计已完成，现在可以进入元素组合页面进行进一步的创作</p>
+              <button
+                onClick={() => navigate('/element-combine')}
+                className={`${styles.glassButton} px-8 py-3 rounded-lg text-white font-medium text-lg hover:scale-105 transition-transform`}
+              >
+                <i className="fas fa-arrow-right mr-2"></i>
+                进入元素组合
+              </button>
             </div>
           </section>
         </div>

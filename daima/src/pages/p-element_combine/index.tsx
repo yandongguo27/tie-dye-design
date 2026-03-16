@@ -28,13 +28,13 @@ const ElementCombinePage: React.FC = () => {
   const [uploadedElements, setUploadedElements] = useState<UploadedElement[]>([]);
   const [showImagePreview, setShowImagePreview] = useState<boolean>(false);
   const [combinedPreview, setCombinedPreview] = useState<string>('');
+  const [elementCount, setElementCount] = useState<number>(3);
   const [elementSize, setElementSize] = useState<number>(50);
   const [spacing, setSpacing] = useState<number>(50);
   const [rotation, setRotation] = useState<number>(0);
   const [opacity, setOpacity] = useState<number>(100);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [isUpdatingPreview, setIsUpdatingPreview] = useState<boolean>(false);
-  const [showCombinationPreview, setShowCombinationPreview] = useState<boolean>(false);
   const [showMultiAnglePreview, setShowMultiAnglePreview] = useState<boolean>(false);
   const [isSetAsActive, setIsSetAsActive] = useState<boolean>(false);
   const [isResizing, setIsResizing] = useState<boolean>(false);
@@ -73,12 +73,7 @@ const ElementCombinePage: React.FC = () => {
     if (uploadedElements.length > 0) {
       generateCombination();
     }
-  }, [selectedComposition, elementSize, spacing, rotation, opacity]);
-
-  // 导航处理
-  const handleNavigation = (path: string) => {
-    navigate(path);
-  };
+  }, [selectedComposition, elementCount, elementSize, spacing, rotation, opacity]);
 
   // 文件选择处理
   const handleFileSelect = () => {
@@ -135,7 +130,7 @@ const ElementCombinePage: React.FC = () => {
   };
 
   // 检测形状
-  const detectShapes = (imageData: ImageData): any[] => {
+  const detectShapes = (_imageData: ImageData): any[] => {
     // 这里可以添加更复杂的形状检测算法
     return [];
   };
@@ -190,6 +185,7 @@ const ElementCombinePage: React.FC = () => {
 
         // 根据选择的构图方式排列元素
         await arrangeElements(ctx, uploadedElements, selectedComposition, {
+          count: elementCount,
           size: elementSize,
           spacing: spacing,
           rotation: rotation,
@@ -211,13 +207,14 @@ const ElementCombinePage: React.FC = () => {
     elements: UploadedElement[],
     composition: string,
     params: {
+      count: number;
       size: number;
       spacing: number;
       rotation: number;
       opacity: number;
     }
   ) => {
-    const { size, spacing, rotation, opacity } = params;
+    const { count, size, spacing, rotation, opacity } = params;
     const centerX = ctx.canvas.width / 2;
     const centerY = ctx.canvas.height / 2;
 
@@ -232,57 +229,12 @@ const ElementCombinePage: React.FC = () => {
       })
     );
 
-    // 根据构图类型决定要使用的图片数量和排列
+    // 根据元素数量复制图片
     let images: HTMLImageElement[] = [];
-    
-    switch (composition) {
-      case 'symmetric':
-        // 对称：每个元素复制成对称的两个
-        images = baseImages.flatMap(img => [img, img]);
-        break;
-      case 'corners':
-        // 四角：确保至少4个元素
-        while (images.length < 4) {
-          images.push(...baseImages);
-        }
-        images = images.slice(0, 4);
-        break;
-      case 'center-line':
-        // 中线对称：每个元素复制成对称的两个
-        images = baseImages.flatMap(img => [img, img]);
-        break;
-      case 'repeat':
-        // 重复排列：复制元素形成3x3网格
-        const repeatCount = 9;
-        while (images.length < repeatCount) {
-          images.push(...baseImages);
-        }
-        images = images.slice(0, repeatCount);
-        break;
-      case 'radial':
-        // 放射状：复制成12个元素围成圆圈
-        const radialCount = 12;
-        while (images.length < radialCount) {
-          images.push(...baseImages);
-        }
-        images = images.slice(0, radialCount);
-        break;
-      case 'random':
-        // 随机分布：复制成15-20个元素随机分布
-        // 使用固定种子确保相同输入产生相同数量
-        const seededRandomForCount = (seed: number) => {
-          const x = Math.sin(seed * 9999) * 10000;
-          return x - Math.floor(x);
-        };
-        const randomCount = 15 + Math.floor(seededRandomForCount(baseImages.length * 7) * 6);
-        while (images.length < randomCount) {
-          images.push(...baseImages);
-        }
-        images = images.slice(0, randomCount);
-        break;
-      default:
-        images = baseImages;
+    while (images.length < count) {
+      images.push(...baseImages);
     }
+    images = images.slice(0, count);
 
     ctx.globalAlpha = opacity;
 
@@ -450,7 +402,7 @@ const ElementCombinePage: React.FC = () => {
   };
 
   // 根据构图类型更新参数控制
-  const updateParameterControls = (compositionType: string) => {
+  const updateParameterControls = (_compositionType: string) => {
     // 这里可以根据构图类型控制参数的可用性
     // 当前所有参数都可用，保持不变
   };
@@ -485,7 +437,6 @@ const ElementCombinePage: React.FC = () => {
       }
       
       setIsGenerating(false);
-      setShowCombinationPreview(true);
       setShowMultiAnglePreview(true);
     } catch (error) {
       console.error('生成组合时出错:', error);
@@ -662,7 +613,8 @@ const ElementCombinePage: React.FC = () => {
               <Link to="/home" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>首页</Link>
               <Link to="/pattern-design" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>纹样设计</Link>
               <Link to="/element-combine" className={`${styles.navLink} ${styles.active} text-white py-2`}>元素组合</Link>
-              <Link to="/application" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>服饰/首饰应用</Link>
+              <Link to="/application" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>文创应用</Link>
+              <Link to="/pattern-library" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>纹样库</Link>
               <Link to="/history" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>历史记录</Link>
               <Link to="/help" className={`${styles.navLink} text-white/80 hover:text-white py-2`}>帮助指南</Link>
             </div>
@@ -793,6 +745,35 @@ const ElementCombinePage: React.FC = () => {
                   <i className="fas fa-sliders-h mr-3 text-white/80"></i>
                   重组参数
                 </h2>
+                
+                {/* 元素数量 */}
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="text-white/90 font-medium">元素数量</label>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="number"
+                        className="w-16 px-2 py-1 text-sm text-white bg-white/10 border border-white/20 rounded focus:outline-none focus:border-white/40"
+                        min="1"
+                        max="10"
+                        value={elementCount}
+                        onChange={(e) => {
+                          const value = Math.max(1, Math.min(10, Number(e.target.value)));
+                          setElementCount(value);
+                        }}
+                      />
+                      <span className="text-white/70 text-sm">个</span>
+                    </div>
+                  </div>
+                  <input 
+                    type="range" 
+                    className={`w-full h-2 ${styles.sliderTrack} appearance-none cursor-pointer ${styles.parameterControl} ${styles.active}`}
+                    min="1" 
+                    max="10" 
+                    value={elementCount}
+                    onChange={(e) => setElementCount(Number(e.target.value))}
+                  />
+                </div>
                 
                 {/* 元素大小 */}
                 <div className="mb-6">
