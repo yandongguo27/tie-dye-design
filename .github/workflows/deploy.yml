@@ -36,6 +36,11 @@ jobs:
         working-directory: daima
         run: npm run build
 
+      - name: Copy static images into dist
+        run: |
+          rm -rf daima/dist/images
+          cp -R images daima/dist/images
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

@@ -40,6 +40,13 @@ const PatternLibraryPage: React.FC = () => {
   const [importedPatternData, setImportedPatternData] = useState<PatternRow[]>([]);
   const [previewImage, setPreviewImage] = useState<{src: string, alt: string} | null>(null);
 
+  const resolvePublicUrl = (path: string) => {
+    if (!path) return path;
+    const base = import.meta.env.BASE_URL || '/';
+    const normalized = path.startsWith('/') ? path.slice(1) : path;
+    return `${base}${normalized}`;
+  };
+
 
   // 设置页面标题
   useEffect(() => {
@@ -144,7 +151,7 @@ const PatternLibraryPage: React.FC = () => {
 
   // 处理图片预览
   const handleImagePreview = (src: string, alt: string) => {
-    setPreviewImage({ src, alt });
+    setPreviewImage({ src: resolvePublicUrl(src), alt });
   };
 
   // 关闭图片预览
@@ -372,7 +379,7 @@ const PatternLibraryPage: React.FC = () => {
                     <div className={`${styles.imageCell} flex-1`}>
                       {row.culturalArtifact.image ? (
                         <img 
-                          src={row.culturalArtifact.image} 
+                          src={resolvePublicUrl(row.culturalArtifact.image)} 
                           alt={row.culturalArtifact.name}
                           className="w-full h-full object-cover object-center cursor-pointer"
                           onClick={(e) => {
@@ -398,7 +405,7 @@ const PatternLibraryPage: React.FC = () => {
                   <div className={`${styles.patternCell} ${styles.imageCell}`}>
                     {row.vectorizedImage.image ? (
                       <img 
-                        src={row.vectorizedImage.image} 
+                        src={resolvePublicUrl(row.vectorizedImage.image)} 
                         alt="矢量化图片"
                         className="w-full h-full object-cover object-center cursor-pointer"
                         onClick={(e) => {
@@ -431,7 +438,7 @@ const PatternLibraryPage: React.FC = () => {
                   <div className={`${styles.patternCell} ${styles.imageCell}`}>
                     {row.elementExtraction.image ? (
                       <img 
-                        src={row.elementExtraction.image} 
+                        src={resolvePublicUrl(row.elementExtraction.image)} 
                         alt="元素提取"
                         className="w-full h-full object-cover object-center cursor-pointer"
                         onClick={(e) => {
@@ -456,7 +463,7 @@ const PatternLibraryPage: React.FC = () => {
                   <div className={`${styles.patternCell} ${styles.imageCell}`}>
                     {row.innovativePattern.image ? (
                       <img 
-                        src={row.innovativePattern.image} 
+                        src={resolvePublicUrl(row.innovativePattern.image)} 
                         alt="创新纹样"
                         className="w-full h-full object-cover object-center cursor-pointer"
                         onClick={(e) => {
