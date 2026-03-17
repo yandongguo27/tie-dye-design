@@ -33,6 +33,7 @@ function Listener() {
 }
 
 // 使用 createBrowserRouter 创建路由实例
+// 让路由自动适配 Vite 的 base（GitHub Pages 子路径 / 本地根路径）
 const router = createBrowserRouter([
   {
     path: '/',
@@ -129,6 +130,8 @@ const router = createBrowserRouter([
   },
     ]
   }
-]);
+], {
+  basename: import.meta.env.BASE_URL,
+});
 
 export default router;

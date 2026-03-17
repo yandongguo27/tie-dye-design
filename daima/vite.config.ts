@@ -26,8 +26,8 @@ const errorLoggerPlugin = () => ({
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [react(), mode === 'development' ? errorLoggerPlugin() : null,],
-  // GitHub Pages 配置 - 设置正确的base路径
-  base: '/tie-dye-design/',
+  // 开发环境用 '/'，GitHub Pages 生产环境用仓库名子路径
+  base: mode === 'production' ? '/tie-dye-design/' : '/',
   server: {
     port: 5173,
     strictPort: true,
