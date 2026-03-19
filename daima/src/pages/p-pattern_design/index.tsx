@@ -50,6 +50,28 @@ interface PatternCard {
   category: string;
 }
 
+const loadImage = (src: string) =>
+  new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('图片加载失败（可能是格式不支持或文件损坏）'));
+    img.src = src;
+  });
+
+const drawImageContain = (
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  targetW: number,
+  targetH: number
+) => {
+  const scale = Math.min(targetW / img.width, targetH / img.height);
+  const w = img.width * scale;
+  const h = img.height * scale;
+  const x = (targetW - w) / 2;
+  const y = (targetH - h) / 2;
+  ctx.drawImage(img, x, y, w, h);
+};
+
 const PatternDesignPage: React.FC = () => {
   const navigate = useNavigate();
   
@@ -128,7 +150,12 @@ const PatternDesignPage: React.FC = () => {
     setIsGenerating(true);
     try {
       // 根据特征和参数生成新的纹样
-      const newPatterns = await generatePatternsFromFeatures(uploadedFile1.features);
+      const newPatterns = await generatePatternsFromInputs(
+        uploadedFile1.preview,
+        uploadedFile1.features,
+        uploadedFile2?.preview,
+        uploadedFile2?.features
+      );
       
       setGeneratedPatterns(newPatterns);
       if (newPatterns.length > 0) {
@@ -185,9 +212,30 @@ const PatternDesignPage: React.FC = () => {
     }
   };
 
-  // 根据特征生成纹样
-  const generatePatternsFromFeatures = async (features: ImageFeatures) => {
-    const { colors, shapes } = features;
+  // 根据输入（图片+特征）生成纹样
+  const generatePatternsFromInputs = async (
+    preview1: string,
+    features1: ImageFeatures,
+    preview2?: string,
+    features2?: ImageFeatures
+  ) => {
+    const mergedColors = [...(features1.colors || []), ...(features2?.colors || [])]
+      .slice()
+      .sort((a, b) => b.percentage - a.percentage)
+      .slice(0, 6);
+
+    const shapes = (() => {
+      if (!features2) return features1.shapes;
+      const s1 = features1.shapes;
+      const s2 = features2.shapes;
+      return {
+        complexity: Math.round((s1.complexity + s2.complexity) / 2),
+        edges: Math.round((s1.edges + s2.edges) / 2),
+        symmetry: Math.round((s1.symmetry + s2.symmetry) / 2),
+        density: Math.round((s1.density + s2.density) / 2)
+      };
+    })();
+
     const { dyeConcentration, patternDensity, fusionStrength, colorSaturation, patternSize } = patternParameters;
 
     // 这里可以添加更复杂的纹样生成算法
@@ -197,14 +245,16 @@ const PatternDesignPage: React.FC = () => {
     // 生成3个不同的纹样变体
     for (let i = 0; i < 3; i++) {
       const pattern = await createPatternVariant(
-        colors,
+        mergedColors,
         shapes,
         dyeConcentration,
         patternDensity,
         fusionStrength,
         colorSaturation,
         patternSize,
-        i
+        i,
+        preview1,
+        preview2
       );
       patterns.push(pattern);
     }
@@ -221,12 +271,14 @@ const PatternDesignPage: React.FC = () => {
     _fusionStrength: number,
     _colorSaturation: number,
     _patternSize: number,
-    index: number
+    index: number,
+    preview1: string,
+    preview2?: string
   ): Promise<PatternCard> => {
     // 这里可以添加更复杂的变体生成逻辑
     return {
       id: `generated-${Date.now()}-${index}`,
-      imageUrl: await generatePatternImage(colors, shapes, patternParameters),
+      imageUrl: await generatePatternImage(colors, shapes, patternParameters, preview1, preview2, index),
       name: `生成纹样 ${index + 1}`,
       isSelected: index === 0,
       category: '生成'
@@ -237,7 +289,10 @@ const PatternDesignPage: React.FC = () => {
   const generatePatternImage = async (
     colors: ColorInfo[],
     shapes: ShapeInfo,
-    parameters: PatternParameter
+    parameters: PatternParameter,
+    preview1: string,
+    preview2?: string,
+    variantIndex: number = 0
   ): Promise<string> => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -368,23 +423,84 @@ const PatternDesignPage: React.FC = () => {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.globalCompositeOperation = 'source-over';
       }
+
+      // --- 关键改进：用上传图的边缘轮廓叠加，让结果保留“线条/形状”特征 ---
+      try {
+        const img = await loadImage(variantIndex % 2 === 0 ? preview1 : (preview2 || preview1));
+        const edgeCanvas = document.createElement('canvas');
+        edgeCanvas.width = canvas.width;
+        edgeCanvas.height = canvas.height;
+        const edgeCtx = edgeCanvas.getContext('2d');
+        if (edgeCtx) {
+          edgeCtx.clearRect(0, 0, edgeCanvas.width, edgeCanvas.height);
+          drawImageContain(edgeCtx, img, edgeCanvas.width, edgeCanvas.height);
+
+          const imgData = edgeCtx.getImageData(0, 0, edgeCanvas.width, edgeCanvas.height);
+          const edgeMap = detectShapes(imgData); // 复用：会计算 edges/symmetry/density 等
+          // 基于真实像素做一次 Sobel，用于绘制轮廓遮罩
+          const data = imgData.data;
+          const w = imgData.width;
+          const h = imgData.height;
+          const gray = new Uint8Array(w * h);
+          for (let i = 0; i < data.length; i += 4) {
+            gray[i / 4] = Math.floor(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
+          }
+          const edges = sobelEdgeDetection(gray, w, h);
+
+          const threshold = 80 + Math.round((1 - edgeMap.density / 100) * 40); // 密度低时阈值略高
+          // 把边缘像素画成“染料线”，再做一点模糊，让它像扎染的边界扩散
+          edgeCtx.clearRect(0, 0, w, h);
+          edgeCtx.globalCompositeOperation = 'source-over';
+          const ink = dominantColors[variantIndex % Math.max(dominantColors.length, 1)] || { r: 20, g: 60, b: 120 };
+          const sat = colorSaturation / 100;
+          edgeCtx.fillStyle = `rgba(${Math.floor(ink.r * sat)}, ${Math.floor(ink.g * sat)}, ${Math.floor(ink.b * sat)}, 1)`;
+
+          // 直接像素级绘制遮罩（性能可接受：600*600）
+          const mask = edgeCtx.createImageData(w, h);
+          for (let i = 0; i < edges.length; i++) {
+            const v = edges[i];
+            if (v > threshold) {
+              const p = i * 4;
+              mask.data[p] = Math.floor(ink.r * sat);
+              mask.data[p + 1] = Math.floor(ink.g * sat);
+              mask.data[p + 2] = Math.floor(ink.b * sat);
+              mask.data[p + 3] = Math.min(255, Math.round((dyeConcentration / 100) * 255));
+            }
+          }
+          edgeCtx.putImageData(mask, 0, 0);
+
+          // 模糊/叠加产生“晕染边缘”，但轮廓来自真实图案
+          ctx.save();
+          ctx.globalCompositeOperation = 'multiply';
+          ctx.globalAlpha = 0.65;
+          ctx.filter = `blur(${Math.max(0.5, (fusionStrength / 100) * 2)}px)`;
+          ctx.drawImage(edgeCanvas, 0, 0);
+          ctx.filter = 'none';
+          ctx.restore();
+        }
+      } catch (e) {
+        // 如果图片加载/读取失败，不阻塞生成流程（仍保留基础晕染）
+        console.warn('边缘叠加失败，已回退到基础生成:', e);
+      }
     }
 
     return canvas.toDataURL('image/png');
   };
   // 提取图片特征
   const extractImageFeatures = async (imageData: string): Promise<ImageFeatures> => {
-    const image = new Image();
-    image.src = imageData;
-    await new Promise(resolve => image.onload = resolve);
+    const image = await loadImage(imageData);
     
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = image.width;
-    canvas.height = image.height;
+    // 关键改进：对超大图片先缩放，避免部分设备/浏览器 getImageData 内存异常导致“生成永远是默认图”
+    const maxDim = 512;
+    const scale = Math.min(1, maxDim / Math.max(image.width, image.height));
+    canvas.width = Math.max(1, Math.round(image.width * scale));
+    canvas.height = Math.max(1, Math.round(image.height * scale));
     
     if (ctx) {
-      ctx.drawImage(image, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
       const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imgData.data;
       
