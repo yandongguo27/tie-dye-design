@@ -20,6 +20,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Copy Unity WebGL to daima/public
+        run: |
+          rm -rf daima/public/tuanjie-hub-sim
+          cp -R public/tuanjie-hub-sim daima/public/
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -59,4 +66,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
 
