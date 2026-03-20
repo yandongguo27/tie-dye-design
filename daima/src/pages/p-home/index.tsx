@@ -6,6 +6,8 @@ import styles from './styles.module.css';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  // Unity WebGL 导出的页面放在 public/tuanjie-hub-sim/ 下时，用 BASE_URL 拼接，适配 GitHub Pages base 前缀。
+  const simSrc = `${import.meta.env.BASE_URL}tuanjie-hub-sim/index.html`;
 
   useEffect(() => {
     const originalTitle = document.title;
@@ -125,6 +127,20 @@ export default function HomePage() {
                   观看演示
                 </button>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Tuanjie Hub 虚拟仿真嵌入（核心功能区域上方） */}
+        <section className="py-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="rounded-2xl overflow-hidden shadow-lg bg-white/5">
+              <iframe
+                title="Tuanjie 虚拟仿真"
+                src={simSrc}
+                style={{ width: '100%', height: 700, border: 0 }}
+                allow="fullscreen"
+              />
             </div>
           </div>
         </section>
