@@ -120,7 +120,7 @@ const PatternLibraryPage: React.FC = () => {
         .on(
           'postgres_changes',
           { event: 'INSERT', schema: 'public', table: 'community_patterns' },
-          (payload) => {
+          (payload: { new: unknown }) => {
             const row = payload.new as CommunityPatternRow;
             if (!row?.id || row.payload == null) return;
             const pattern = { ...(row.payload as PatternRow), id: row.id };
@@ -133,7 +133,7 @@ const PatternLibraryPage: React.FC = () => {
         .on(
           'postgres_changes',
           { event: 'UPDATE', schema: 'public', table: 'community_patterns' },
-          (payload) => {
+          (payload: { new: unknown }) => {
             const row = payload.new as CommunityPatternRow;
             if (!row?.id || row.payload == null) return;
             const pattern = { ...(row.payload as PatternRow), id: row.id };
@@ -143,7 +143,7 @@ const PatternLibraryPage: React.FC = () => {
         .on(
           'postgres_changes',
           { event: 'DELETE', schema: 'public', table: 'community_patterns' },
-          (payload) => {
+          (payload: { old: { id?: string | number } }) => {
             const deletedId = String(payload.old?.id ?? '');
             if (!deletedId) return;
             setUserAddedPatterns((prev) => prev.filter((item) => item.id !== deletedId));
