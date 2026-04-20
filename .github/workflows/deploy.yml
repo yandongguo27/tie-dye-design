@@ -41,12 +41,18 @@ jobs:
 
       - name: Build
         working-directory: daima
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Copy static images into dist
         run: |
           rm -rf daima/dist/images
           cp -R images daima/dist/images
+
+      - name: Add SPA fallback for GitHub Pages
+        run: cp daima/dist/index.html daima/dist/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
