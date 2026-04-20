@@ -107,6 +107,100 @@
   background: radial-gradient(circle at center, rgba(69, 91, 230, 0.55), rgba(199, 200, 206, 0.3));
 }
 
+/* 新增/编辑表单区 */
+.formSectionCard {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(10, 24, 72, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.formSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.formSubTitle {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+}
+
+.formGroupCard {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.formGroupTitle {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.86rem;
+  margin-bottom: 10px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.formInput::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.44);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.uploadGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.uploadLabel {
+  display: block;
+  border-radius: 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.uploadLabel:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 2px;
+}
+
 /* 响应式调整 */
 @media (max-width: 1024px) {
   .patternCell {
@@ -117,6 +211,26 @@
   .semanticsCell {
     padding: 12px;
     font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .uploadGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .formGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .uploadGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
